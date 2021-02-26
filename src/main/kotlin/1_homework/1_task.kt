@@ -1,4 +1,4 @@
-package homework_1
+package `1_homework`
 
 import java.util.*
 
