@@ -1,4 +1,4 @@
-package homework1
+package first_homework
 
 import java.util.Scanner
 
@@ -20,13 +20,13 @@ fun getInputNumber(): Int {
     val scan = Scanner(System.`in`)
 
     if (!scan.hasNextInt()) {
-        println("Invalid input: you write non-number")
-        return -1
+        println("Invalid input: you write non-number, try again")
+        return getInputNumber()
     }
     val numberToGetFactorial: Int = scan.nextInt()
     if (numberToGetFactorial < 1) {
-        println("Invalid input: you write non-natural number")
-        return -1
+        println("Invalid input: you write non-natural number, try again")
+        return getInputNumber()
     }
 
     return numberToGetFactorial
