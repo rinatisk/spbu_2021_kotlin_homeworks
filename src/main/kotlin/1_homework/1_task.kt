@@ -36,6 +36,8 @@ fun main() {
 
     val numberToGetFactorial: Int = getInputNumber()
 
-    if (numberToGetFactorial > 0) print("recursive factorial $numberToGetFactorial! = ${getFactorialRecursive(numberToGetFactorial)}\n" +
+    if (numberToGetFactorial > 0) print("recursive factorial $numberToGetFactorial! = ${
+        getFactorialRecursive(numberToGetFactorial)
+    }\n" +
             "iterative factorial $numberToGetFactorial! = ${getFactorialIterative(numberToGetFactorial)}")
 }
