@@ -1,4 +1,4 @@
-package first_homework
+package firsthomework
 
 import java.util.Scanner
 
