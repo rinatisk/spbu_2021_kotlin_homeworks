@@ -1,6 +1,6 @@
-package `1_homework`
+package homework1
 
-import java.util.*
+import java.util.Scanner
 
 fun getFactorialRecursive(number: Int): Int {
     return when {
