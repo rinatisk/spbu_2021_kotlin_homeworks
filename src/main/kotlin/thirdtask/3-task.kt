@@ -9,6 +9,7 @@ import commandstorage.CommandStorage
 
 fun main() {
     val commandStorage = CommandStorage()
+    println(commandStorage.getNumberList().size)
     /* спрятал, чтобы чекер не ругался на magic number, после ревью уберу
     val firstTestRange = (1..10)
     val secondTestRange = (11..20)
