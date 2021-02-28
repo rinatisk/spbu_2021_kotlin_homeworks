@@ -6,12 +6,12 @@ fun getFactorialRecursive(number: Int): Int {
     return when {
         number == 1 -> 1
         number > 1 -> number * getFactorialRecursive(number - 1)
-        else -> -1
+        else -> throw Exception("invalid input, you write non-natural number")
     }
 }
 
 fun getFactorialIterative(number: Int): Int {
-    if (number < 1) return -1
+    if (number < 1) throw Exception("invalid input, you write non-natural number")
     return (1..number).reduce { first, second -> first * second }
 }
 
@@ -21,11 +21,11 @@ fun getInputNumber(): Int {
 
     if (!scan.hasNextInt()) {
         println("Invalid input: you write non-number")
-        return -1
+        throw Exception("invalid input, you write non-number")
     }
     val numberToGetFactorial: Int = scan.nextInt()
     if (numberToGetFactorial < 1) {
-        println("Invalid input: you write non-natural number")
+        throw Exception("invalid input, you write non-natural number")
     }
 
     return numberToGetFactorial
