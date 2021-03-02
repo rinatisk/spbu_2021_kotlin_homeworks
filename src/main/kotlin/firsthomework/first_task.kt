@@ -4,16 +4,17 @@ import java.lang.IllegalArgumentException
 import java.util.Scanner
 
 fun getFactorialRecursive(number: Int): Int {
-    return when {
-        number == 1 -> 1
-        number > 1 -> number * getFactorialRecursive(number - 1)
-        else -> throw IllegalArgumentException("invalid input, you write non-natural number")
+    return when (number) {
+        0, 1 -> 1
+        else -> number * getFactorialRecursive(number - 1)
     }
 }
 
 fun getFactorialIterative(number: Int): Int {
-    if (number < 1) throw IllegalArgumentException("invalid input, you write non-natural number")
-    return (1..number).reduce { first, second -> first * second }
+    return when (number) {
+        0, 1 -> 1
+        else -> (1..number).reduce { first, second -> first * second }
+    }
 }
 
 fun getInputNumber(): Int {
@@ -21,11 +22,10 @@ fun getInputNumber(): Int {
     val scan = Scanner(System.`in`)
 
     if (!scan.hasNextInt()) {
-        println("Invalid input: you write non-number")
         throw IllegalArgumentException("invalid input, you write non-number")
     }
     val numberToGetFactorial: Int = scan.nextInt()
-    if (numberToGetFactorial < 1) {
+    if (numberToGetFactorial < 0) {
         throw IllegalArgumentException("invalid input, you write non-natural number")
     }
 
@@ -34,10 +34,8 @@ fun getInputNumber(): Int {
 
 fun main() {
 
-    val numberToGetFactorial: Int = getInputNumber()
+    val number: Int = getInputNumber()
 
-    if (numberToGetFactorial > 0) print("recursive factorial $numberToGetFactorial! = ${
-        getFactorialRecursive(numberToGetFactorial)
-    }\n" +
-            "iterative factorial $numberToGetFactorial! = ${getFactorialIterative(numberToGetFactorial)}")
+    println("recursive factorial $number! = ${getFactorialRecursive(number)}")
+    println("iterative factorial $number! = ${getFactorialIterative(number)}")
 }
