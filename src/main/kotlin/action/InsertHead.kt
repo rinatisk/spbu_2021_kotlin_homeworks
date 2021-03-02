@@ -2,15 +2,14 @@ package action
 
 import commandstorage.CommandStorage
 
-public class InsertHead(private val toInsertNumber: Int, override var commandStorage: CommandStorage) : Action {
+class InsertHead(private val number: Int, override var commandStorage: CommandStorage) : Action {
 
     override fun doAction() {
-        commandStorage.getNumberList().add(0, toInsertNumber)
-        commandStorage.getActionList().add(this)
+        commandStorage.numberList.add(0, number)
+        commandStorage.addAction(this)
     }
 
     override fun reverseAction() {
-        commandStorage.getNumberList().removeFirst()
-        commandStorage.getActionList().removeLast()
+        commandStorage.numberList.removeFirst()
     }
 }

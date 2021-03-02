@@ -2,12 +2,17 @@ package commandstorage
 
 import action.Action
 
-public class CommandStorage {
-    private var numberList = mutableListOf<Int>()
-    public fun getNumberList() = numberList
+class CommandStorage {
+    private val _numberList = mutableListOf<Int>()
+
+    val numberList: MutableList<Int> get() = _numberList
+
+    fun addAction(action: Action) = actionList.add(action)
 
     private var actionList = mutableListOf<Action>()
-    public fun getActionList() = actionList
 
-    public fun revertLastAction() = actionList.last().reverseAction()
+    fun revertLastAction() {
+        actionList.last().reverseAction()
+        actionList.removeLast()
+    }
 }

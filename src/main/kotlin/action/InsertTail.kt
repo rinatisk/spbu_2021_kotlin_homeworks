@@ -2,15 +2,13 @@ package action
 
 import commandstorage.CommandStorage
 
-public class InsertTail(private val toInsertNumber: Int, override var commandStorage: CommandStorage) : Action {
+class InsertTail(private val toInsertNumber: Int, override var commandStorage: CommandStorage) : Action {
 
     override fun doAction() {
-        commandStorage.getNumberList().add(toInsertNumber)
-        commandStorage.getActionList().add(this)
+        commandStorage.numberList.add(toInsertNumber)
     }
 
     override fun reverseAction() {
-        commandStorage.getNumberList().removeLast()
-        commandStorage.getActionList().removeLast()
+        commandStorage.numberList.removeLast()
     }
 }

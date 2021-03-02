@@ -2,8 +2,8 @@ package action
 
 import commandstorage.CommandStorage
 
-public interface Action {
-    var commandStorage: CommandStorage
+interface Action {
+    val commandStorage: CommandStorage
     fun doAction()
     fun reverseAction()
 }
