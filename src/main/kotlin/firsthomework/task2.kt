@@ -2,6 +2,11 @@ package firsthomework
 
 import java.util.Scanner
 
+fun String.getOccurrencesCount(substring: String): Int {
+    return this.windowed(substring.length) {
+        if (it == substring) 1 else 0 }.sum()
+}
+
 fun main() {
 
     val scan = Scanner(System.`in`)
@@ -12,8 +17,7 @@ fun main() {
     val substring = scan.nextLine()
 
     val answer: Int = try {
-        mainString.windowed(substring.length) {
-        if (it.equals(substring)) 1 else 0 }.sum()
+        mainString.getOccurrencesCount(substring)
     } catch (e: IllegalArgumentException) {
         throw IllegalArgumentException("you didn't write string")
     }
