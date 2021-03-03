@@ -21,11 +21,11 @@ class Move(private val fromIndex: Int, private val toIndex: Int, override var co
     override fun doAction() {
         checkIndexes(commandStorage, fromIndex, toIndex)
         moveElements(commandStorage, fromIndex, toIndex)
+        commandStorage.addAction(this)
     }
 
     override fun reverseAction() {
-
-       checkIndexes(commandStorage, fromIndex, toIndex)
-        moveElements(commandStorage, fromIndex, toIndex)
+        checkIndexes(commandStorage, toIndex, fromIndex)
+        moveElements(commandStorage, toIndex, fromIndex)
     }
 }

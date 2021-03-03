@@ -9,7 +9,7 @@ class CommandStorage {
 
     fun addAction(action: Action) = actionList.add(action)
 
-    private var actionList = mutableListOf<Action>()
+    private val actionList = mutableListOf<Action>()
 
     fun revertLastAction() {
         actionList.last().reverseAction()
