@@ -7,9 +7,12 @@ class CommandStorage {
 
     val numberList: MutableList<Int> get() = _numberList
 
-    fun addAction(action: Action) = actionList.add(action)
-
     private val actionList = mutableListOf<Action>()
+
+    fun doAction(action: Action) {
+        action.doAction()
+        actionList.add(action)
+    }
 
     fun revertLastAction() {
         actionList.last().reverseAction()

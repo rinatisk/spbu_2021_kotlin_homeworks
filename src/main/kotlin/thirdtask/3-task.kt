@@ -11,13 +11,13 @@ fun main() {
     val firstTestRange = (1..10)
     val secondTestRange = (11..20)
 
-    firstTestRange.map { InsertTail(it, commandStorage).doAction() }
+    firstTestRange.map { commandStorage.doAction(InsertTail(it, commandStorage)) }
     println(commandStorage.numberList)
 
-    secondTestRange.map { InsertHead(it, commandStorage).doAction() }
+    secondTestRange.map { commandStorage.doAction(InsertHead(it, commandStorage)) }
     println(commandStorage.numberList)
 
-    Move(3, 5, commandStorage).doAction()
+    commandStorage.doAction(Move(3, 5, commandStorage))
     println(commandStorage.numberList)
 
     commandStorage.revertLastAction()
