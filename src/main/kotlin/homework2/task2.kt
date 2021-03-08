@@ -9,7 +9,7 @@ fun main() {
     println(list.reversed().distinct().reversed())
 }
 
-fun getUserList(): MutableList<Int> {
+fun getUserList(): ArrayList<Int> {
     val userList = arrayListOf<Int>()
     val scan = Scanner(File("src/main/kotlin/homework2/input.txt"))
     while (scan.hasNextInt()) {
