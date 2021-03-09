@@ -9,7 +9,7 @@ fun main() {
     println(list.removeDuplicates())
 }
 
-fun ArrayList<Int>. removeDuplicates() = this.reversed().distinct().reversed()
+fun ArrayList<Int>.removeDuplicates() = this.reversed().distinct().reversed()
 
 fun getUserList(): ArrayList<Int> {
     val userList = arrayListOf<Int>()
