@@ -5,7 +5,7 @@ import commandstorage.CommandStorage
 /**
  * Action subclass
  *
- * Add number to head of list or reverse it
+ * Add number to tail of list or reverse it
  *
  * @param number is a number to add
  * @param commandStorage is a *commandStorage* to add number into
@@ -14,7 +14,7 @@ import commandstorage.CommandStorage
 class InsertTail(private val number: Int, override val commandStorage: CommandStorage) : Action {
 
     /**
-     * add number *last* to number list
+     * add number to *last* position in number list
      */
     override fun doAction() {
         commandStorage.numberList.add(number)

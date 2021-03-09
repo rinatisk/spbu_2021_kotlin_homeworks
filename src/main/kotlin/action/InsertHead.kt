@@ -14,7 +14,7 @@ import commandstorage.CommandStorage
 class InsertHead(private val number: Int, override val commandStorage: CommandStorage) : Action {
 
     /**
-     * add number *first* to number list
+     * add number to *first* position in number list
      */
     override fun doAction() {
         commandStorage.numberList.add(0, number)
