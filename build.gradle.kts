@@ -27,16 +27,6 @@ detekt {
     config = files("./config/detekt/detekt.yml")
 }
 
-tasks {
-    dokkaHtml {
-        dokkaSourceSets {
-            configureEach() {
-                includes.setFrom(listOf("src/main/kotlin/action/action.md", "src/main/kotlin/thirdtask/3-task.md", "src/main/kotlin/commandstorage/commandStorage.md"))
-            }
-        }
-    }
-}
-
 tasks.test {
     useJUnit()
 }
