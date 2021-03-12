@@ -1,14 +1,20 @@
 package action
 
 import commandstorage.CommandStorage
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.Polymorphic
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-class InsertTail(private val number: Int, override val commandStorage: CommandStorage) : Action {
+@Serializable
+@SerialName("InsertTail")
+class InsertTail(private val number: Int) : Action {
 
-    override fun doAction() {
+     override fun doAction(commandStorage: CommandStorage) {
         commandStorage.numberList.add(number)
     }
 
-    override fun reverseAction() {
+     override fun reverseAction(commandStorage: CommandStorage) {
         commandStorage.numberList.removeLast()
     }
 }

@@ -1,6 +1,9 @@
 package action
 
 import commandstorage.CommandStorage
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlin.IndexOutOfBoundsException
 
 private fun moveElements(commandStorage: CommandStorage, fromIndex: Int, toIndex: Int) {
@@ -16,14 +19,16 @@ private fun checkIndexes(commandStorage: CommandStorage, fromIndex: Int, toIndex
     }
 }
 
-class Move(private val fromIndex: Int, private val toIndex: Int, override val commandStorage: CommandStorage) :
+@Serializable
+@SerialName("Move")
+class Move(private val fromIndex: Int, private val toIndex: Int) :
     Action {
-    override fun doAction() {
+    override fun doAction(commandStorage: CommandStorage) {
         checkIndexes(commandStorage, fromIndex, toIndex)
         moveElements(commandStorage, fromIndex, toIndex)
     }
 
-    override fun reverseAction() {
+    override fun reverseAction(commandStorage: CommandStorage) {
         checkIndexes(commandStorage, toIndex, fromIndex)
         moveElements(commandStorage, toIndex, fromIndex)
     }
