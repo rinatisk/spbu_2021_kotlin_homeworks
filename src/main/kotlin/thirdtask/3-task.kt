@@ -14,15 +14,12 @@ fun main() {
     println(commandStorage.getSeria())
 
     firstTestRange.map { commandStorage.doAction(InsertTail(it)) }
-   // println(format.encodeToString(commandStorage))
-
     println(commandStorage.getSeria())
-    secondTestRange.map { commandStorage.doAction(InsertHead(it)) }
-    println(commandStorage.numberList)
 
+    secondTestRange.map { commandStorage.doAction(InsertHead(it)) }
+    println(commandStorage.getSeria())
     commandStorage.doAction(Move(3, 5))
-    println(commandStorage.numberList)
+    println(commandStorage.getSeria())
 
     commandStorage.revertLastAction()
-    println(commandStorage.numberList)
-}
+    println(commandStorage.getSeria())}
