@@ -18,7 +18,6 @@ fun main() {
     commandStorage.readSerialization(resource)
     println(commandStorage.numberList)
 
-
     firstTestRange.map { commandStorage.doAction(InsertTail(it)) }
     println(commandStorage.numberList)
 

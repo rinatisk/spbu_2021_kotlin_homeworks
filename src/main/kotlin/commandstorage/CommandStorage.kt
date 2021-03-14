@@ -12,7 +12,6 @@ import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import java.io.File
 
-
 class CommandStorage {
     private val _numberList = mutableListOf<Int>()
 
@@ -49,6 +48,4 @@ class CommandStorage {
         val toRead = File(resource).readText()
         format.decodeFromString<MutableList<Action>>(toRead).map { doAction(it) }
     }
-
-
 }
