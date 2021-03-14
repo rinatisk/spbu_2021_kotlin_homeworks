@@ -11,11 +11,10 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import java.io.File
-import java.io.FileWriter
 
 
 class CommandStorage {
-    private val _numberList = mutableListOf<Int>(1, 2, 3)
+    private val _numberList = mutableListOf<Int>()
 
     val numberList: MutableList<Int> get() = _numberList
 
@@ -42,13 +41,13 @@ class CommandStorage {
     private val format = Json { serializersModule = module }
 
     fun writeSerialization(resource: String) {
-        val text = format.encodeToString(actionList)
-        File(resource).writeText(text)
+        val toWrite = format.encodeToString(actionList)
+        File(resource).writeText(toWrite)
     }
 
     fun readSerialization(resource: String) {
-        val text = File(resource).readText()
-        format.decodeFromString<MutableList<Action>>(text).map { doAction(it) }
+        val toRead = File(resource).readText()
+        format.decodeFromString<MutableList<Action>>(toRead).map { doAction(it) }
     }
 
 
