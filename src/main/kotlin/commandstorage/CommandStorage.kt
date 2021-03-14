@@ -4,11 +4,14 @@ import action.Action
 import action.InsertHead
 import action.InsertTail
 import action.Move
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
+import java.io.File
+import java.io.FileWriter
 
 
 class CommandStorage {
@@ -36,10 +39,16 @@ class CommandStorage {
         }
     }
 
-    val format = Json { serializersModule = module }
+    private val format = Json { serializersModule = module }
 
-    fun getSeria(): String {
-        return format.encodeToString(actionList)
+    fun writeSerialization(resource: String) {
+        val text = format.encodeToString(actionList)
+        File(resource).writeText(text)
+    }
+
+    fun readSerialization(resource: String) {
+        val text = File(resource).readText()
+        format.decodeFromString<MutableList<Action>>(text).map { doAction(it) }
     }
 
 
