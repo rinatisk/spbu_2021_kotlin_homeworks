@@ -9,22 +9,20 @@ internal class InsertHeadTest {
 
     @Test
     fun doAction() {
-        val inputData = listOf(1, 2)
+        val inputData = listOf(4, 3, 2, 1)
 
         val commandStorage = CommandStorage()
-        commandStorage.doAction(InsertHead(2))
-        commandStorage.doAction(InsertHead(1))
+        (1..4).map { commandStorage.doAction(InsertHead(it)) }
 
         assertEquals(inputData, commandStorage.numberList)
     }
 
     @Test
     fun reverseAction() {
-        val inputData = listOf(2)
+        val inputData = listOf(3, 2, 1)
 
         val commandStorage = CommandStorage()
-        commandStorage.doAction(InsertHead(2))
-        commandStorage.doAction(InsertHead(1))
+        (1..4).map { commandStorage.doAction(InsertHead(it)) }
         commandStorage.revertLastAction()
 
         assertEquals(inputData, commandStorage.numberList)

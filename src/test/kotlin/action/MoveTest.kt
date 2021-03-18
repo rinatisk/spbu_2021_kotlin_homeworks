@@ -18,11 +18,13 @@ internal class MoveTest {
     }
 
     @MethodSource("inputData")
-    @ParameterizedTest(name = "test {index}, {1}")
+    @ParameterizedTest(name = "inputData {index}, {1}")
     fun paramDoAction(expected: List<Int>, inputAction: Action) {
         val commandStorage = CommandStorage()
         (1..4).map { commandStorage.doAction(InsertTail(it)) }
+
         commandStorage.doAction(inputAction)
+
         assertEquals(expected, commandStorage.numberList)
     }
 
