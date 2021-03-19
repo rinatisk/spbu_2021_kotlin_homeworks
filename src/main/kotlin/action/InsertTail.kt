@@ -8,11 +8,11 @@ import kotlinx.serialization.Serializable
 @SerialName("InsertTail")
 class InsertTail(private val number: Int) : Action {
 
-     override fun doAction(commandStorage: CommandStorage) {
+    override fun doAction(commandStorage: CommandStorage) {
         commandStorage.numberList.add(number)
     }
 
-     override fun reverseAction(commandStorage: CommandStorage) {
+    override fun reverseAction(commandStorage: CommandStorage) {
         commandStorage.numberList.removeLast()
     }
 }
