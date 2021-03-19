@@ -3,7 +3,7 @@ package action
 import commandstorage.CommandStorage
 
 /**
- * Base class for actions
+ * Base class for *Action's*
  * @property commandStorage storage which contains list of performed commands
  */
 interface Action {
