@@ -4,12 +4,17 @@ import action.InsertHead
 import action.InsertTail
 import action.Move
 import commandstorage.CommandStorage
+import java.io.File
 
-fun getResource(): String = object {}.javaClass.getResource("serialization.json").file
+//fun String.asResource(): String = this.javaClass::class.java.getResource("serialization.json").file
+
+
+//fun getResource(): String = object {}.javaClass.getResource("serialization.json").file
 
 fun main() {
-    val resource = getResource()
-
+   // val resource = getResource()
+    val resource = Util.getResource("serialization.json")
+    println(File(resource))
     val commandStorage = CommandStorage()
     println(commandStorage.numberList.size)
     val firstTestRange = (1..10)
@@ -29,6 +34,4 @@ fun main() {
 
     commandStorage.revertLastAction()
     println(commandStorage.numberList)
-
-    commandStorage.writeSerialization(resource)
 }
