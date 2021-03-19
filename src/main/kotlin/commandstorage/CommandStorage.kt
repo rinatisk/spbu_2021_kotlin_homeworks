@@ -29,15 +29,17 @@ class CommandStorage {
         actionList.removeLast()
     }
 
-    private val module = SerializersModule {
-        polymorphic(Action::class) {
-            subclass(InsertTail::class)
-            subclass(InsertHead::class)
-            subclass(Move::class)
+    companion object SerializersModule {
+        private val module = SerializersModule {
+            polymorphic(Action::class) {
+                subclass(InsertTail::class)
+                subclass(InsertHead::class)
+                subclass(Move::class)
+            }
         }
-    }
 
-    private val format = Json { serializersModule = module }
+        private val format = Json { serializersModule = module }
+    }
 
     fun writeSerialization(resource: String) {
         val toWrite = format.encodeToString(actionList)

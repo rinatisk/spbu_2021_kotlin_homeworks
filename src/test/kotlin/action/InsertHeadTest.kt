@@ -12,7 +12,7 @@ internal class InsertHeadTest {
         val inputData = listOf(4, 3, 2, 1)
 
         val commandStorage = CommandStorage()
-        (1..4).map { commandStorage.doAction(InsertHead(it)) }
+        for( i in (1..4)) { commandStorage.doAction(InsertHead(i)) }
 
         assertEquals(inputData, commandStorage.numberList)
     }
@@ -22,7 +22,7 @@ internal class InsertHeadTest {
         val inputData = listOf(3, 2, 1)
 
         val commandStorage = CommandStorage()
-        (1..4).map { commandStorage.doAction(InsertHead(it)) }
+        for( i in (1..4)) { commandStorage.doAction(InsertHead(i)) }
         commandStorage.revertLastAction()
 
         assertEquals(inputData, commandStorage.numberList)

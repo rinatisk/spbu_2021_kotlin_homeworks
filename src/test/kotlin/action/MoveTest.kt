@@ -21,7 +21,7 @@ internal class MoveTest {
     @ParameterizedTest(name = "inputData {index}, {1}")
     fun paramDoAction(expected: List<Int>, inputAction: Action) {
         val commandStorage = CommandStorage()
-        (1..4).map { commandStorage.doAction(InsertTail(it)) }
+        for( i in (1..4)) { commandStorage.doAction(InsertTail(i)) }
 
         commandStorage.doAction(inputAction)
 
@@ -33,7 +33,7 @@ internal class MoveTest {
         val testData = listOf(1, 4, 2, 3)
 
         val commandStorage = CommandStorage()
-        (1..4).map { commandStorage.doAction(InsertTail(it)) }
+        for( i in (1..4)) { commandStorage.doAction(InsertTail(i)) }
         commandStorage.doAction(Move(3, 1))
 
         assertEquals(testData, commandStorage.numberList)
@@ -44,7 +44,7 @@ internal class MoveTest {
         val testData = listOf(1, 2, 3, 4)
 
         val commandStorage = CommandStorage()
-        (1..4).map { commandStorage.doAction(InsertTail(it)) }
+        for( i in (1..4)) { commandStorage.doAction(InsertTail(i)) }
         commandStorage.doAction(Move(3, 1))
         commandStorage.revertLastAction()
 

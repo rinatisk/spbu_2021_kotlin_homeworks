@@ -12,7 +12,7 @@ internal class InsertTailTest {
         val inputData = listOf(1, 2, 3, 4)
 
         val commandStorage = CommandStorage()
-        (1..4).map { commandStorage.doAction(InsertTail(it)) }
+        for( i in (1..4)) { commandStorage.doAction(InsertTail(i)) }
 
         assertEquals(inputData, commandStorage.numberList)
     }
@@ -22,7 +22,7 @@ internal class InsertTailTest {
         val inputData = listOf(1, 2, 3)
 
         val commandStorage = CommandStorage()
-        (1..4).map { commandStorage.doAction(InsertTail(it)) }
+        for( i in (1..4)) { commandStorage.doAction(InsertTail(i)) }
         commandStorage.revertLastAction()
 
         assertEquals(inputData, commandStorage.numberList)

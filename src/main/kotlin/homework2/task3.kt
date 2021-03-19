@@ -1,3 +1,4 @@
+@file:Suppress("MatchingDeclarationName")
 package homework2
 
 import action.InsertHead
@@ -6,10 +7,9 @@ import action.Move
 import commandstorage.CommandStorage
 import java.io.File
 
-//fun String.asResource(): String = this.javaClass::class.java.getResource("serialization.json").file
-
-
-//fun getResource(): String = object {}.javaClass.getResource("serialization.json").file
+object Util {
+    fun getResource(name: String) = this.javaClass.getResource(name).file
+}
 
 fun main() {
    // val resource = getResource()
@@ -23,10 +23,10 @@ fun main() {
     commandStorage.readSerialization(resource)
     println(commandStorage.numberList)
 
-    firstTestRange.map { commandStorage.doAction(InsertTail(it)) }
+    firstTestRange.forEach { commandStorage.doAction(InsertTail(it)) }
     println(commandStorage.numberList)
 
-    secondTestRange.map { commandStorage.doAction(InsertHead(it)) }
+    secondTestRange.forEach { commandStorage.doAction(InsertHead(it)) }
     println(commandStorage.numberList)
 
     commandStorage.doAction(Move(3, 5))
