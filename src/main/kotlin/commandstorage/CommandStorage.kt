@@ -3,10 +3,7 @@ package commandstorage
 import action.Action
 
 /**
- * Storage which contains number list and action list
- *
- * Storage to store a list of number in which we can add numbers with *actions*
- * and list of performed actions in which we can reverse last
+ * Storage, which contains number list and performed actions list.
  * @property _numberList private list of numbers
  * @property numberList public *API* to get list of numbers
  * @property actionList list of performed actions
@@ -20,7 +17,7 @@ class CommandStorage {
     private val actionList = mutableListOf<Action>()
 
     /**
-     * perform action and add this to action list
+     * Perform action and add this to action list.
      */
     fun doAction(action: Action) {
         action.doAction()
@@ -28,7 +25,7 @@ class CommandStorage {
     }
 
     /**
-     * reverse last performed action and remove this from action list
+     * Reverse last performed action and remove this from action list.
      */
 
     fun revertLastAction() {

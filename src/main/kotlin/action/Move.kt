@@ -4,12 +4,11 @@ import commandstorage.CommandStorage
 import kotlin.IndexOutOfBoundsException
 
 /**
- * Move element in number list
+ * Move element in number list.
  * @param commandStorage storage which contains number list
  * @param fromIndex *index* of element we move
  * @param toIndex *index* to which we move element
  */
-
 private fun moveElements(commandStorage: CommandStorage, fromIndex: Int, toIndex: Int) {
     val toAddNumberCopy = commandStorage.numberList[fromIndex]
     commandStorage.numberList.removeAt(fromIndex)
@@ -17,7 +16,7 @@ private fun moveElements(commandStorage: CommandStorage, fromIndex: Int, toIndex
 }
 
 /**
- * Check indexes for validity
+ * Check indexes for validity.
  * @param commandStorage storage which contains size of number list
  * @param fromIndex *index* of element we move
  * @param toIndex *index* to which we move element
@@ -32,10 +31,7 @@ private fun checkIndexes(commandStorage: CommandStorage, fromIndex: Int, toIndex
 }
 
 /**
- * Action subclass
- *
- * Move number list element
- *
+ * Action subclass, which move number in number list.
  * @param fromIndex *index* of element in number list we move
  * @param toIndex *index* to which we move element in number list
  * @param commandStorage is a *commandStorage* which contains number list
@@ -44,7 +40,7 @@ private fun checkIndexes(commandStorage: CommandStorage, fromIndex: Int, toIndex
 class Move(private val fromIndex: Int, private val toIndex: Int, override val commandStorage: CommandStorage) :
     Action {
     /**
-     * Perform an action
+     * Move element.
      */
     override fun doAction() {
         checkIndexes(commandStorage, fromIndex, toIndex)
@@ -52,7 +48,7 @@ class Move(private val fromIndex: Int, private val toIndex: Int, override val co
     }
 
     /**
-     * Perform an reverse action
+     * Revert move element.
      */
     override fun reverseAction() {
         checkIndexes(commandStorage, toIndex, fromIndex)
