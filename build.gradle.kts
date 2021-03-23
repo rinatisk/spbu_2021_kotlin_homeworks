@@ -4,6 +4,7 @@ plugins {
     kotlin("jvm") version "1.4.30"
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     application
+    id("org.jetbrains.dokka") version "1.4.20"
 }
 
 group = "me.user"
@@ -24,7 +25,6 @@ detekt {
     failFast = true // fail build on any finding
     detekt.buildUponDefaultConfig = true
     config = files("./config/detekt/detekt.yml")
-
 }
 
 tasks.test {
