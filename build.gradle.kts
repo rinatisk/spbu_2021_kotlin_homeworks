@@ -16,11 +16,16 @@ repositories {
 }
 
 dependencies {
+    implementation("org.testng:testng:7.1.0")
     testImplementation(kotlin("test-junit"))
     implementation("com.charleskorn.kaml:kaml:0.28.3")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     implementation("com.squareup:kotlinpoet:1.7.2")
+    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+    testImplementation(kotlin("test-junit5"))
 }
 
 detekt {
@@ -31,7 +36,7 @@ detekt {
 }
 
 tasks.test {
-    useJUnit()
+    useJUnitPlatform()
 }
 
 tasks.withType<KotlinCompile>() {

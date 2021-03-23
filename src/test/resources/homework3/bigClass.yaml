@@ -1,0 +1,8 @@
+packageName: homework3
+className: BigClass
+functions:
+  - "doAction"
+  - "anotherAction"
+  - "veryImportantAction"
+  - "functionForTest"
+  - "anotherFunctionForTest"

@@ -1,0 +1,4 @@
+packageName: homework3
+className: SmallClass
+functions:
+  - "doAction"

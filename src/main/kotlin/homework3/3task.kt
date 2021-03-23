@@ -1,54 +1,60 @@
 package homework3
 
 import com.charleskorn.kaml.Yaml
-import com.charleskorn.kaml.YamlInput
 import com.squareup.kotlinpoet.*
-import commandstorage.CommandStorage
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.io.File
-import java.io.Serial
 
+object Util {
+    fun getResource(name: String): String = this.javaClass.getResource(name).file
+}
+
+/**
+ * Data class, which contains information from yaml file.
+ * @param packageName name of package for test class
+ * @param className name of test class
+ * @param functions list of functions to test in test class
+ */
 @Serializable
+@SerialName("Class")
 data class Class(
     val packageName: String,
     val className: String,
     val functions: List<String>
-
 )
+/**
+ * Object which generates test class from yaml config.
+ */
+object GeneratorTest {
+
+    private fun generateTestFunction(functionName: String) =
+        FunSpec.builder(functionName)
+            .addAnnotation(ClassName("org.junit.jupiter.api", "Test"))
+            .build()
+
+    private fun generateTestClass(functionList: List<String>, className: String) =
+        TypeSpec.classBuilder("${className}Test")
+            .addModifiers(KModifier.INTERNAL)
+            .addFunctions(functionList.map { generateTestFunction(it) })
+            .build()
+
+    fun generateTestFile(config: Class) =
+        FileSpec.builder(config.packageName, "${config.className}Test")
+            .addType(generateTestClass(config.functions, config.className))
+            .build()
+
+}
+
 fun main() {
-    val resource = object {}.javaClass.getResource("config.yaml").file
-    val input = File(resource).readText().trimIndent()
+    println("Write path to file in which you want to print test class:")
+    val resultPath = readLine()
 
-    val result = Yaml.default.decodeFromString(Class.serializer(), input)
+    val configName = Util.getResource("config.yaml")
+    val configText = File(configName).readText().trimIndent()
 
-    println(result)
+    val config = Yaml.default.decodeFromString(Class.serializer(), configText)
+    GeneratorTest.generateTestFile(config).writeTo(File(resultPath))
 
-    val greeterClass = ClassName("", "Greeter")
-    val createTaco = MemberName("com.squareup.tacos", "createTaco")
-    val isVegan = MemberName("com.squareup.tacos", "isVegan")
-    val file = FileSpec.builder(result.packageName, "HelloWorld")
-        .addType(
-            TypeSpec.classBuilder("Greeter")
-            .primaryConstructor(FunSpec.constructorBuilder()
-                .addParameter("name", String::class)
-                .build())
-            .addProperty(
-                PropertySpec.builder("name", String::class)
-                .initializer("name")
-                .build())
-            .addFunction(FunSpec.builder("greet")
-                .addStatement("val taco = %M()", createTaco)
-                .addStatement("println(taco.%M)", isVegan)
-                .addStatement("println(%P)", "Hello, \$name")
-                .build())
-            .build())
-        .addFunction(
-            FunSpec.builder("main")
-            .addParameter("args", String::class, KModifier.VARARG)
-            .addStatement("%T(args[0]).greet()", greeterClass)
-            .build())
-        .build()
-
-    file.writeTo(System.out)
 
 }

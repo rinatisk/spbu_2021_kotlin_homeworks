@@ -1,0 +1,4 @@
+packageName:
+className: BigClass
+functions:
+  - "doAction"
