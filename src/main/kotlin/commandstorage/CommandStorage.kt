@@ -13,11 +13,12 @@ import kotlinx.serialization.modules.subclass
 import java.io.File
 
 class CommandStorage {
-    private val _numberList = mutableListOf<Int>()
 
-    val numberList: MutableList<Int> get() = _numberList
+    val numberList = mutableListOf<Int>()
 
     private val actionList = mutableListOf<Action>()
+
+    private val format = Json { serializersModule = module }
 
     fun doAction(action: Action) {
         action.doAction(this)
@@ -29,18 +30,6 @@ class CommandStorage {
         actionList.removeLast()
     }
 
-    companion object SerializersModule {
-        private val module = SerializersModule {
-            polymorphic(Action::class) {
-                subclass(InsertTail::class)
-                subclass(InsertHead::class)
-                subclass(Move::class)
-            }
-        }
-
-        private val format = Json { serializersModule = module }
-    }
-
     fun writeSerialization(resource: String) {
         val toWrite = format.encodeToString(actionList)
         File(resource).writeText(toWrite)
@@ -49,5 +38,15 @@ class CommandStorage {
     fun readSerialization(resource: String) {
         val toRead = File(resource).readText()
         format.decodeFromString<MutableList<Action>>(toRead).map { doAction(it) }
+    }
+
+    companion object SerializersModule {
+        private val module = SerializersModule {
+            polymorphic(Action::class) {
+                subclass(InsertTail::class)
+                subclass(InsertHead::class)
+                subclass(Move::class)
+            }
+        }
     }
 }
