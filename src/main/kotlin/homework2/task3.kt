@@ -12,7 +12,6 @@ object Util {
 }
 
 fun main() {
-   // val resource = getResource()
     val resource = Util.getResource("serialization.json")
     println(File(resource))
     val commandStorage = CommandStorage()
