@@ -24,10 +24,11 @@ class CommandStorage {
 
     private val actionList = mutableListOf<Action>()
 
+    private val format = Json { serializersModule = module }
+
     /**
      * Perform action and add this to action list.
      */
-    private val format = Json { serializersModule = module }
 
     fun doAction(action: Action) {
         action.doAction(this)
