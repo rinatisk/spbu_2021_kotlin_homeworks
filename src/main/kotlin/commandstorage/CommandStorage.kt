@@ -18,12 +18,19 @@ class CommandStorage {
 
     private val actionList = mutableListOf<Action>()
 
+    /**
+     * Perform action and add this to action list.
+     */
     private val format = Json { serializersModule = module }
 
     fun doAction(action: Action) {
         action.doAction(this)
         actionList.add(action)
     }
+
+    /**
+     * Reverse last performed action and remove this from action list.
+     */
 
     fun revertLastAction() {
         actionList.last().reverseAction(this)
