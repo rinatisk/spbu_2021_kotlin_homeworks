@@ -6,14 +6,11 @@ import kotlinx.serialization.Serializable
 
 /**
  * Action subclass, which add number to head of list or reverse it.
-
  * @param number is a number to add
- * @param commandStorage is a *commandStorage* to add number into
 */
-      
 @Serializable
 @SerialName("InsertHead")
-class InsertHead(private val number: Int, override val commandStorage: CommandStorage) : Action {
+class InsertHead(private val number: Int) : Action {
 
     /**
      * Add number to *first* position in number list.

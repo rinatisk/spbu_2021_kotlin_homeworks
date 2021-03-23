@@ -36,7 +36,6 @@ private fun checkIndexes(commandStorage: CommandStorage, fromIndex: Int, toIndex
  * Action subclass, which move number in number list.
  * @param fromIndex *index* of element in number list we move
  * @param toIndex *index* to which we move element in number list
- * @param commandStorage is a *commandStorage* which contains number list
  */
 
 @Serializable
