@@ -6,7 +6,6 @@ import kotlinx.serialization.Serializable
 
 /**
  * Action subclass, which add number to head of list or reverse it.
-
  * @param number is a number to add
 */
 
