@@ -12,6 +12,12 @@ import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import java.io.File
 
+/**
+ * Storage, which contains number list and performed actions list.
+ * @property numberList public list of numbers
+ * @property actionList list of performed actions
+ */
+
 class CommandStorage {
 
     val numberList = mutableListOf<Int>()
