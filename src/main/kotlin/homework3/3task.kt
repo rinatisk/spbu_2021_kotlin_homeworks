@@ -1,7 +1,11 @@
 package homework3
 
 import com.charleskorn.kaml.Yaml
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.KModifier
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.FileSpec
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.io.File
@@ -43,7 +47,6 @@ object GeneratorTest {
         FileSpec.builder(config.packageName, "${config.className}Test")
             .addType(generateTestClass(config.functions, config.className))
             .build()
-
 }
 
 fun main() {
@@ -55,6 +58,4 @@ fun main() {
 
     val config = Yaml.default.decodeFromString(Class.serializer(), configText)
     GeneratorTest.generateTestFile(config).writeTo(File(resultPath))
-
-
 }

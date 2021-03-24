@@ -1,17 +1,15 @@
 package homework3
 
+import com.charleskorn.kaml.EmptyYamlDocumentException
+import com.charleskorn.kaml.MissingRequiredPropertyException
 import com.charleskorn.kaml.Yaml
-import commandstorage.CommandStorage
-import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.io.TempDir
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 import java.io.File
-import java.nio.file.Path
-import kotlin.io.path.readText
 
 
 internal class GeneratorTestTest {
@@ -22,10 +20,10 @@ internal class GeneratorTestTest {
             Arguments.of("smallClassExpected.kt", "smallClass.yaml"),
         )
         @JvmStatic
-        fun inputDataEmptyClass() = listOf<Arguments>(
-            Arguments.of("noFuncExpected.kt"),
-            Arguments.of("noNameClassExpected.kt"),
-            Arguments.of("noNamePackageExpected.kt")
+        fun inputDataInvalidClass() = listOf<Arguments>(
+            Arguments.of("noFunc.yaml"),
+            Arguments.of("noNameClass.yaml"),
+            Arguments.of("noNamePackage.yaml")
         )
     }
 
@@ -33,24 +31,35 @@ internal class GeneratorTestTest {
     @ParameterizedTest(name = "inputDataNonEmptyClass {index}, {1}")
     fun generateNonEmptyTestFile(expected: String, inputConfig: String) {
 
-        val expectedClass = File(Util.getResource(expected))
-        val configText = File(Util.getResource(inputConfig)).readText()
-        val config = Yaml.default.decodeFromString(Class.serializer(), configText)
-        val actualClass = GeneratorTest.generateTestFile(config).toString()
+        val expectedClass = File(this.javaClass.getResource(expected).file)
 
+        val configText = File(this.javaClass.getResource(inputConfig).file).readText()
+        val classFromConfig = Yaml.default.decodeFromString(Class.serializer(), configText)
+        val actualClass = GeneratorTest.generateTestFile(classFromConfig).toString()
 
         assertEquals(expectedClass.readText(), actualClass)
 
     }
 
-    @MethodSource("inputDataEmptyClass")
-    @ParameterizedTest(name = "inputDataEmptyClass {index}, {1}")
-    fun generateEmptyTestFile(expected: String, inputConfig: String) {
-        val configText = File(Util.getResource(inputConfig)).readText()
-        val config = Yaml.default.decodeFromString(Class.serializer(), configText)
-        val actualClass = GeneratorTest.generateTestFile(config).toString()
+    @MethodSource("inputDataInvalidClass")
+    @ParameterizedTest(name = "inputDataInvalidClass {index}, {1}")
+    fun generateInvalidTestFile(inputConfig: String) {
+        val configText = File(this.javaClass.getResource(inputConfig).file).readText()
 
-        assertThrows(GeneratorTest.generateTestFile(config), IllegalAccessError)
+        assertThrows(MissingRequiredPropertyException::class.java) {
+            val classFromConfig = Yaml.default.decodeFromString(Class.serializer(), configText)
+            GeneratorTest.generateTestFile(classFromConfig).toString()
+        }
+    }
+
+    @Test
+    fun generateEmptyTestFile() {
+        val configText = File(this.javaClass.getResource("emptyClass.yaml").file).readText()
+
+        assertThrows(EmptyYamlDocumentException::class.java) {
+            val classFromConfig = Yaml.default.decodeFromString(Class.serializer(), configText)
+            GeneratorTest.generateTestFile(classFromConfig).toString()
+        }
     }
 
 }
