@@ -1,7 +1,11 @@
 package homework3
 
 import com.charleskorn.kaml.Yaml
-import com.squareup.kotlinpoet.*
+import com.squareup.kotlinpoet.FunSpec
+import com.squareup.kotlinpoet.ClassName
+import com.squareup.kotlinpoet.TypeSpec
+import com.squareup.kotlinpoet.FileSpec
+import com.squareup.kotlinpoet.KModifier
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import java.io.File
