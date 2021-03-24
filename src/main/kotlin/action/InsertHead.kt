@@ -4,15 +4,26 @@ import commandstorage.CommandStorage
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-@Serializable
-@SerialName("InsertHead")
-class InsertHead(private val number: Int) : Action {
+/**
+ * Action subclass, which add number to head of list or reverse it.
 
-    override fun doAction(commandStorage: CommandStorage) {
+ * @param number is a number to add
+ * @param commandStorage is a *commandStorage* to add number into
+*/
+
+class InsertHead(private val number: Int, override val commandStorage: CommandStorage) : Action {
+
+    /**
+     * Add number to *first* position in number list.
+     */
+    override fun doAction() {
         commandStorage.numberList.add(0, number)
     }
 
-    override fun reverseAction(commandStorage: CommandStorage) {
+    /**
+     * Remove *first* number from number list.
+     */
+    override fun reverseAction() {
         commandStorage.numberList.removeFirst()
     }
 }
