@@ -54,7 +54,7 @@ fun main() {
     val resultPath = readLine()
 
     val configName = Util.getResource("config.yaml")
-    val configText = File(configName).readText().trimIndent()
+    val configText = File(configName).readText()
 
     val config = Yaml.default.decodeFromString(Class.serializer(), configText)
     GeneratorTest.generateTestFile(config).writeTo(File(resultPath))
