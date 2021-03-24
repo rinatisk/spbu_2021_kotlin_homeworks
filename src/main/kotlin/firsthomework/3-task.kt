@@ -18,10 +18,10 @@ fun main() {
     commandStorage.readSerialization(resource)
     println(commandStorage.numberList)
 
-    firstTestRange.map { commandStorage.doAction(InsertTail(it)) }
+    firstTestRange.forEach { commandStorage.doAction(InsertTail(it)) }
     println(commandStorage.numberList)
 
-    secondTestRange.map { commandStorage.doAction(InsertHead(it)) }
+    secondTestRange.forEach { commandStorage.doAction(InsertHead(it)) }
     println(commandStorage.numberList)
 
     commandStorage.doAction(Move(3, 5))
@@ -30,5 +30,4 @@ fun main() {
     commandStorage.revertLastAction()
     println(commandStorage.numberList)
 
-    commandStorage.writeSerialization(resource)
 }
