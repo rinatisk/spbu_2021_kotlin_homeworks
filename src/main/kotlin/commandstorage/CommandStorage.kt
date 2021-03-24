@@ -14,17 +14,17 @@ import java.io.File
 
 /**
  * Storage, which contains number list and performed actions list.
- * @property _numberList private list of numbers
- * @property numberList public *API* to get list of numbers
+ * @property numberList list of numbers
  * @property actionList list of performed actions
  */
 
 class CommandStorage {
-    private val _numberList = mutableListOf<Int>()
 
-    val numberList: MutableList<Int> get() = _numberList
+    val numberList = mutableListOf<Int>()
 
     private val actionList = mutableListOf<Action>()
+
+    private val format = Json { serializersModule = module }
 
     /**
      * Perform action and add this to action list.
@@ -43,16 +43,6 @@ class CommandStorage {
         actionList.removeLast()
     }
 
-    private val module = SerializersModule {
-        polymorphic(Action::class) {
-            subclass(InsertTail::class)
-            subclass(InsertHead::class)
-            subclass(Move::class)
-        }
-    }
-
-    private val format = Json { serializersModule = module }
-
     fun writeSerialization(resource: String) {
         val toWrite = format.encodeToString(actionList)
         File(resource).writeText(toWrite)
@@ -60,6 +50,16 @@ class CommandStorage {
 
     fun readSerialization(resource: String) {
         val toRead = File(resource).readText()
-        format.decodeFromString<MutableList<Action>>(toRead).map { doAction(it) }
+        format.decodeFromString<MutableList<Action>>(toRead).forEach { doAction(it) }
+    }
+
+    companion object SerializersModule {
+        private val module = SerializersModule {
+            polymorphic(Action::class) {
+                subclass(InsertTail::class)
+                subclass(InsertHead::class)
+                subclass(Move::class)
+            }
+        }
     }
 }
