@@ -51,7 +51,7 @@ class CommandStorage {
 
     fun readSerialization(resource: String) {
         val toRead = File(resource).readText()
-        format.decodeFromString<MutableList<Action>>(toRead).map { doAction(it) }
+        format.decodeFromString<MutableList<Action>>(toRead).forEach { doAction(it) }
     }
 
     companion object SerializersModule {
