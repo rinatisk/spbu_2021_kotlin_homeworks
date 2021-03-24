@@ -29,5 +29,4 @@ fun main() {
 
     commandStorage.revertLastAction()
     println(commandStorage.numberList)
-
 }
