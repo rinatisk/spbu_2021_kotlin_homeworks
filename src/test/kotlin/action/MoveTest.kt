@@ -4,6 +4,7 @@ import commandstorage.CommandStorage
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -26,6 +27,17 @@ internal class MoveTest {
         commandStorage.doAction(inputAction)
 
         assertEquals(expected, commandStorage.numberList)
+    }
+
+    @Test
+    fun invalidIndexesTest() {
+        val commandStorage = CommandStorage()
+        for (i in (1..4)) { commandStorage.doAction(InsertTail(i)) }
+
+        assertThrows(IndexOutOfBoundsException::class.java) {
+            commandStorage.doAction(Move(5, 1))
+        }
+
     }
 
     @Test
