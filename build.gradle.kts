@@ -30,6 +30,8 @@ dependencies {
     testImplementation(kotlin("test-junit5"))
 }
 
+
+
 detekt {
     failFast = true // fail build on any finding
     detekt.buildUponDefaultConfig = true
