@@ -24,7 +24,6 @@ dependencies {
     implementation("com.charleskorn.kaml:kaml:0.28.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     implementation("com.squareup:kotlinpoet:1.7.2")
     implementation("org.junit.jupiter:junit-jupiter:5.4.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
