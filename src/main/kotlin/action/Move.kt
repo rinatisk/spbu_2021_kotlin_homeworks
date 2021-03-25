@@ -1,6 +1,8 @@
 package action
 
 import commandstorage.CommandStorage
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import kotlin.IndexOutOfBoundsException
 
 /**
@@ -36,6 +38,8 @@ private fun checkIndexes(commandStorage: CommandStorage, fromIndex: Int, toIndex
  * @param toIndex *index* to which we move element in number list
  */
 
+@Serializable
+@SerialName("Move")
 class Move(private val fromIndex: Int, private val toIndex: Int) :
     Action {
     /**

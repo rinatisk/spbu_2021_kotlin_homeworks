@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "1.4.31"
     kotlin("plugin.serialization") version "1.4.31"
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
+    kotlin("plugin.serialization") version "1.4.31"
     application
     id("org.jetbrains.dokka") version "1.4.20"
 }
@@ -21,6 +22,7 @@ dependencies {
     implementation("org.testng:testng:7.1.0")
     testImplementation(kotlin("test-junit"))
     implementation("com.charleskorn.kaml:kaml:0.28.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0")
     implementation("com.squareup:kotlinpoet:1.7.2")
