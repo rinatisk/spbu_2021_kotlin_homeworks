@@ -14,7 +14,7 @@ import java.io.File
 
 /**
  * Storage, which contains number list and performed actions list.
- * @property numberList public *API* to get list of numbers
+ * @property numberList public list of numbers
  * @property actionList list of performed actions
  */
 
@@ -28,6 +28,7 @@ class CommandStorage {
     /**
      * Perform action and add this to action list.
      */
+
     fun doAction(action: Action) {
         action.doAction(this)
         actionList.add(action)
