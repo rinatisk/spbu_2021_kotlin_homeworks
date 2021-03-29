@@ -1,5 +1,5 @@
-packageName: commandstorage
-className: CommandStorage
+package name: commandstorage
+class name: CommandStorage
 functions:
   - "doAction"
   - "revertLastAction"
