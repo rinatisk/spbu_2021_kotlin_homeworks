@@ -1,4 +1,4 @@
-packageName: homework3
+package name: homework3
 
 functions:
   - "doAction"

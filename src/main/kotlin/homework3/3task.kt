@@ -23,8 +23,12 @@ object Util {
 @Serializable
 @SerialName("Class")
 data class Class(
+    @SerialName("package name")
+
     val packageName: String,
+    @SerialName("class name")
     val className: String,
+
     val functions: List<String>
 )
 /**

@@ -1,4 +1,4 @@
 
-className: BigClass
+class name: BigClass
 functions:
   - "doAction"

@@ -1,4 +1,4 @@
-packageName: homework3
-className: SmallClass
+package name: homework3
+class name: SmallClass
 functions:
   - "doAction"
