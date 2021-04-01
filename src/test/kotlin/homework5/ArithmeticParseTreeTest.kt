@@ -31,7 +31,7 @@ internal class ArithmeticParseTreeTest {
     @Test
     fun getString() {
         val resource = this.javaClass.getResource("testPrint.txt").file
-        val expected = "4 = (2 = (1 + 1) * 2)"
+        val expected = this.javaClass.getResource("expectedTestPrint.txt").readText()
 
         val tree = ArithmeticParseTree(resource)
         val value = tree.toString()
