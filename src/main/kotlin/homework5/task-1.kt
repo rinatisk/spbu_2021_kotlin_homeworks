@@ -38,25 +38,25 @@ class ArithmeticParseTree(file: String) {
     private val root: ArithmeticParseTreeNode
 
     init {
-        val input = File(file).readText().replace("(", "( ").replace(")", "").split(" ")
-        root = parse(input).subtreeRoot
+        val parseList = File(file).readText().replace("(", "( ").replace(")", "").split(" ")
+        root = parse(parseList).subtreeRoot
     }
 
     val value = root.value
 
     override fun toString() = root.toString()
-    private fun parse(list: List<String>): TreeNodeWithUpdatedList {
+    private fun parse(parseList: List<String>): TreeNodeWithUpdatedList {
         return when {
 
-            (list.first() == "(") -> {
-                val operator = when (list[1]) {
+            (parseList.first() == "(") -> {
+                val operator = when (parseList[1]) {
                     "+" -> Operator.Plus
                     "*" -> Operator.Times
                     "-" -> Operator.Minus
                     "/" -> Operator.Div
                     else -> throw ArithmeticException("Invalid operator")
                 }
-                val operationLeftChild = parse(list.drop(2))
+                val operationLeftChild = parse(parseList.drop(2))
                 val leftNode = operationLeftChild.subtreeRoot
 
                 val operationRightChild = parse(operationLeftChild.parseList)
@@ -68,10 +68,10 @@ class ArithmeticParseTree(file: String) {
                 )
             }
 
-            (list.first().toIntOrNull() is Int) -> {
+            (parseList.first().toIntOrNull() is Int) -> {
 
                 // return leaf
-                TreeNodeWithUpdatedList(list.drop(1), ArithmeticParseTreeNode(list.first().toInt()))
+                TreeNodeWithUpdatedList(parseList.drop(1), ArithmeticParseTreeNode(parseList.first().toInt()))
             }
 
             else -> throw NullPointerException("Invalid expression")
