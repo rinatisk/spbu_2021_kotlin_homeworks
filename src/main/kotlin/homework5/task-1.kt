@@ -44,7 +44,7 @@ class ArithmeticParseTree(file: String) {
 
     val value = root.value
 
-    fun print() = print(root.toString())
+    override fun toString() = root.toString()
     private fun parse(list: List<String>): ToParseExpression {
         return when {
 

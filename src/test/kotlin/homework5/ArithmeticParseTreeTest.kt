@@ -1,6 +1,7 @@
 package homework5
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -23,6 +24,17 @@ internal class ArithmeticParseTreeTest {
 
         val tree = ArithmeticParseTree(resource)
         val value = tree.value
+
+        assertEquals(expected, value)
+    }
+
+    @Test
+    fun getString() {
+        val resource = this.javaClass.getResource("testPrint.txt").file
+        val expected = "4 = (2 = (1 + 1) * 2)"
+
+        val tree = ArithmeticParseTree(resource)
+        val value = tree.toString()
 
         assertEquals(expected, value)
     }
