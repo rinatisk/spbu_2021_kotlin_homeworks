@@ -2,7 +2,6 @@ package homework5
 
 import java.io.File
 import java.lang.NullPointerException
-import kotlin.io.path.ExperimentalPathApi
 
 enum class Operator(val sign: String) {
     Plus("+"),
@@ -78,11 +77,4 @@ class ArithmeticParseTree(file: String) {
             else -> throw NullPointerException("Invalid expression")
         }
     }
-}
-
-@ExperimentalPathApi
-fun main() {
-    val tree = ArithmeticParseTree(("/home/rinatisk/IdeaProjects/spbu_2021_kotlin_homeworks/build/1.txt"))
-    println(tree.value)
-    tree.print()
 }
