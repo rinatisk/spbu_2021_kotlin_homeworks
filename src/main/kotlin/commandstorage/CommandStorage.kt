@@ -19,7 +19,6 @@ import java.io.File
  */
 
 class CommandStorage {
-
     val numberList = mutableListOf<Int>()
 
     private val actionList = mutableListOf<Action>()

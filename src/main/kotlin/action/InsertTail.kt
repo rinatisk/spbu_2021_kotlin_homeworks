@@ -8,7 +8,6 @@ import kotlinx.serialization.Serializable
  * Action subclass, which add number to tail of list or reverse it.
  * @param number is a number to add
  */
-
 @Serializable
 @SerialName("InsertTail")
 class InsertTail(private val number: Int) : Action {
