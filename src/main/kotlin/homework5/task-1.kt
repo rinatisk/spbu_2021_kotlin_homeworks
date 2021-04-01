@@ -32,7 +32,7 @@ class ArithmeticParseTreeOperation(
         ("$value = ($leftChild ${operator.sign} $rightChild)").toString()
 }
 
-data class ToParseExpression(val parseList: List<String>, val subtreeRoot: ArithmeticParseTreeNode)
+data class TreeNodeWithUpdatedList(val parseList: List<String>, val subtreeRoot: ArithmeticParseTreeNode)
 
 class ArithmeticParseTree(file: String) {
     private val root: ArithmeticParseTreeNode
@@ -45,7 +45,7 @@ class ArithmeticParseTree(file: String) {
     val value = root.value
 
     override fun toString() = root.toString()
-    private fun parse(list: List<String>): ToParseExpression {
+    private fun parse(list: List<String>): TreeNodeWithUpdatedList {
         return when {
 
             (list.first() == "(") -> {
@@ -62,7 +62,7 @@ class ArithmeticParseTree(file: String) {
                 val operationRightChild = parse(operationLeftChild.parseList)
                 val rightNode = operationRightChild.subtreeRoot
 
-                ToParseExpression(
+                TreeNodeWithUpdatedList(
                     operationRightChild.parseList,
                     ArithmeticParseTreeOperation(operator, leftNode, rightNode)
                 )
@@ -71,7 +71,7 @@ class ArithmeticParseTree(file: String) {
             (list.first().toIntOrNull() is Int) -> {
 
                 // return leaf
-                ToParseExpression(list.drop(1), ArithmeticParseTreeNode(list.first().toInt()))
+                TreeNodeWithUpdatedList(list.drop(1), ArithmeticParseTreeNode(list.first().toInt()))
             }
 
             else -> throw NullPointerException("Invalid expression")
