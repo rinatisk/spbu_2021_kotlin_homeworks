@@ -11,7 +11,7 @@ enum class Operator(val sign: String) {
 }
 
 open class ArithmeticParseTreeNode(open val value: Int = 0) {
-    open fun getString(height: Int) = "....".repeat(height) + value.toString() + "\n"
+    open fun getString(height: Int = 0) = "....".repeat(height) + value.toString() + "\n"
 }
 
 class ArithmeticParseTreeOperation(
