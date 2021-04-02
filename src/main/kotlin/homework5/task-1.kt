@@ -11,7 +11,7 @@ enum class Operator(val sign: String) {
 }
 
 open class ArithmeticParseTreeNode(open val value: Int = 0) {
-    override fun toString() = value.toString()
+    open fun getString(height: Int) = "....".repeat(height) + value.toString() + "\n"
 }
 
 class ArithmeticParseTreeOperation(
@@ -28,8 +28,9 @@ class ArithmeticParseTreeOperation(
             Operator.Div -> leftChild.value / rightChild.value
         }
 
-    override fun toString(): String =
-        ("$value = ($leftChild ${operator.sign} $rightChild)").toString()
+    override fun getString(height: Int) = "....".repeat(height) + operator.sign + "\n" +
+            leftChild.getString(height + 1) +
+            rightChild.getString(height + 1)
 }
 
 data class TreeNodeWithUpdatedList(val parseList: List<String>, val subtreeRoot: ArithmeticParseTreeNode)
@@ -44,7 +45,7 @@ class ArithmeticParseTree(file: String) {
 
     val value = root.value
 
-    override fun toString() = root.toString()
+    override fun toString() = root.getString(0)
     private fun parse(parseList: List<String>): TreeNodeWithUpdatedList {
         return when {
 
