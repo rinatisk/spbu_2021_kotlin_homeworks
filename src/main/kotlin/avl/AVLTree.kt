@@ -1,7 +1,9 @@
 package avl
 
-class AVLTree<K : Comparable<K>, V>
-    (var root: AVLNode<K, V>? = null) : Map<K, V> {
+class AVLTree<K : Comparable<K>, V> : Map<K, V> {
+
+    var root: AVLNode<K, V>? = null
+        private set
 
     override var size: Int = 0
 
@@ -16,7 +18,7 @@ class AVLTree<K : Comparable<K>, V>
         get() = this.entries.map { it.key }.toSet()
 
     override val values: Collection<V>
-        get() = this.entries.map { it.value }.toList()
+        get() = this.entries.map { it.value }
 
     override fun get(key: K) = root?.nodeFromKey(key)?.value
 
@@ -32,16 +34,12 @@ class AVLTree<K : Comparable<K>, V>
                 size++
                 null
             }
-            else -> {
-                when (val insertResult = root?.insertNode(key, value)) {
-                    null -> {
-                        size++
-                        root = root?.balance()
-                        null
-                    }
-                    else -> insertResult
-                }
+            root?.insertNode(key, value) == null -> {
+                size++
+                root = root?.balance()
+                null
             }
+            else -> root?.insertNode(key, value)
         }
 
     fun remove(key: K): V? {
@@ -50,7 +48,6 @@ class AVLTree<K : Comparable<K>, V>
         if (toRemove != null) size--
 
         root = root?.removeNode(key)
-        this.root?.balance()
 
         return toRemove
     }

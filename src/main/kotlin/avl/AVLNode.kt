@@ -24,27 +24,20 @@ class AVLNode<K : Comparable<K>, V>(private val keyNode: K, private var valueNod
 
     fun insertNode(key: K, value: V): AVLNode<K, V>? = when {
         key == this.keyNode -> {
-            val current = this
             this.valueNode = value
-            current
+            this
         }
-        key < this.keyNode -> when (this.left) {
-            null -> {
-                this.left = AVLNode(key, value)
-                null
-            }
-            else -> {
-                left?.insertNode(key, value)
-            }
+        key < this.keyNode -> if (this.left == null) {
+            this.left = AVLNode(key, value)
+            null
+        } else {
+            left?.insertNode(key, value)
         }
-        key > this.keyNode -> when (this.right) {
-            null -> {
-                this.right = AVLNode(key, value)
-                null
-            }
-            else -> {
-                right?.insertNode(key, value)
-            }
+        key > this.keyNode -> if (this.right == null) {
+            this.right = AVLNode(key, value)
+            null
+        } else {
+            right?.insertNode(key, value)
         }
         else -> null
     }
@@ -54,13 +47,13 @@ class AVLNode<K : Comparable<K>, V>(private val keyNode: K, private var valueNod
         right = right?.balance()
         return when {
             this.balanceFactor > 1 -> {
-                if (right?.balanceFactor ?: 1 < 0) {
+                if (right?.balanceFactor ?: 0 < 0) {
                     right = right?.rotateRight()
                 }
                 this.rotateLeft()
             }
             this.balanceFactor < -1 -> {
-                if (left?.balanceFactor ?: -1 > 0) {
+                if (left?.balanceFactor ?: 0 > 0) {
                     left = left?.rotateLeft()
                 }
                 this.rotateRight()
@@ -78,18 +71,16 @@ class AVLNode<K : Comparable<K>, V>(private val keyNode: K, private var valueNod
             right = right?.removeNode(key)
             this
         }
-        else -> when {
-            left == null -> right
-            right == null -> left
-            else -> {
-                val minimalNode: AVLNode<K, V> = right?.getMinimalRecursive() ?: this
-                minimalNode.left = this.left
-                if (minimalNode != this.right) {
-                    this.right?.removeMinimal(minimalNode)
-                    minimalNode.right = this.right
-                }
-                minimalNode.balance()
+        left == null -> right
+        right == null -> left
+        else -> {
+            val minimalNode: AVLNode<K, V> = right?.getMinimalRecursive() ?: this
+            minimalNode.left = this.left
+            if (minimalNode != this.right) {
+                this.right?.removeMinimal(minimalNode)
+                minimalNode.right = this.right
             }
+            minimalNode.balance()
         }
     }
 
