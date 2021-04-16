@@ -5,8 +5,10 @@ plugins {
     kotlin("jvm") version "1.4.31"
     id("io.gitlab.arturbosch.detekt") version "1.15.0"
     kotlin("plugin.serialization") version "1.4.31"
-    application
     id("org.jetbrains.dokka") version "1.4.20"
+    id("org.openjfx.javafxplugin") version "0.0.8"
+    application
+
 }
 
 group = "me.user"
@@ -23,9 +25,15 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
     implementation("com.squareup:kotlinpoet:1.7.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
+    implementation("no.tornado:tornadofx:1.7.20")
+    implementation("org.openjfx:javafx-base:11.0.2")
+    implementation("org.openjfx:javafx:11.0.2")
+    implementation("org.openjfx:javafx-controls:11.0.2")
 }
 
-
+javafx {
+    modules("javafx.controls")
+}
 
 detekt {
     failFast = true // fail build on any finding
