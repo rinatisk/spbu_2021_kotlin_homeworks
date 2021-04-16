@@ -25,6 +25,8 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+         java-version: '11'
 
       - name: Run build
         run: .\gradlew.bat build
