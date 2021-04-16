@@ -29,6 +29,7 @@ dependencies {
     implementation("org.openjfx:javafx-base:11.0.2")
     implementation("org.openjfx:javafx:11.0.2")
     implementation("org.openjfx:javafx-controls:11.0.2")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.4.0")
 }
 
 javafx {
