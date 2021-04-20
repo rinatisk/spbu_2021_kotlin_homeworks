@@ -6,11 +6,12 @@ class AVLTree<K : Comparable<K>, V> : Map<K, V> {
         private set
 
     override var size: Int = 0
+        private set
 
     override val entries: Set<Map.Entry<K, V>>
         get() {
             val entries = mutableSetOf<AVLNode<K, V>>()
-            root?.entriesNode(entries) ?: emptySet<AVLNode<K, V>>()
+            root?.entriesNode(entries)
             return entries
         }
 

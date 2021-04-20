@@ -71,9 +71,9 @@ class AVLNode<K : Comparable<K>, V>(private val keyNode: K, private var valueNod
             right = right?.removeNode(key)
             this
         }
-        left == null -> right
-        right == null -> left
         else -> {
+            if (left == null) right
+            if (right == null) left
             val minimalNode: AVLNode<K, V> = right?.getMinimalRecursive() ?: this
             minimalNode.left = this.left
             if (minimalNode != this.right) {
@@ -101,13 +101,10 @@ class AVLNode<K : Comparable<K>, V>(private val keyNode: K, private var valueNod
     private fun getMinimalRecursive(): AVLNode<K, V> = left?.getMinimalRecursive() ?: this
 
     private fun removeMinimal(minimalNode: AVLNode<K, V>?) {
-        when (left) {
-            minimalNode -> {
-                left = minimalNode?.right
-            }
-            else -> {
-                left?.removeMinimal(minimalNode)
-            }
+        if (left == minimalNode) {
+            left = minimalNode?.right
+        } else {
+            left?.removeMinimal(minimalNode)
         }
     }
 
