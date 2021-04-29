@@ -50,12 +50,12 @@ class Sorter {
         if (numberOfThreads < 1) {
             this.multiThreadingMerge(
                 resultList, Borders(leftBorders.left, leftBorders.middle - 1),
-                Borders(rightBorders.left, secondMiddle - 1), leftStart, numberOfThreads - 1
+                Borders(rightBorders.left, secondMiddle - 1), leftStart, numberOfThreads
             )
             this.multiThreadingMerge(
                 resultList, Borders(leftBorders.middle + 1, leftBorders.right),
                 Borders(secondMiddle, rightBorders.right),
-                listMiddle + 1, numberOfThreads - 1
+                listMiddle + 1, numberOfThreads
             )
             return
         }
