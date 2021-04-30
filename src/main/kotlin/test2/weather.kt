@@ -10,11 +10,16 @@ val API = "3f29633eeef810afa69ded4ac143231a"
 
 private fun getJson(city: String) = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&lang=ru&units=metric&appid=$API").readText()
 
-fun parseData(city: String) {
+data class City(val name: String?, val temp: Double?) {
+    override fun toString(): String = "В городе $name $temp градусов"
+}
+
+fun parseData(city: String): City {
     val parser = default()
     val stringBuilder = StringBuilder(getJson(city))
     val json: JsonObject = parser.parse(stringBuilder) as JsonObject
     val body = json.obj("main")
+    return City(json.string("name"), body?.double("temp"))
 }
 
 object Util {
@@ -27,12 +32,7 @@ fun main() {
     val cities = File(file).readText().split(" ")
 
     cities.forEach() {
-        val response = URL("https://api.openweathermap.org/data/2.5/weather?q=$it&lang=ru&units=metric&appid=$API").readText()
-        println(body)
+        println(parseData(it))
     }
 
-    println(cities)
-    println(json)
-    println(body?.double("temp"))
-    println(json.string("name"))
 }
