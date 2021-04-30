@@ -93,18 +93,17 @@ class Sorter {
         }
 
         val currentList = MutableList(toSortBorders.size) { 0 }
-        val middle = (toSortBorders.left + toSortBorders.right) / 2
-        val currentMiddle = middle - toSortBorders.left
+        val currentMiddle = toSortBorders.middle - toSortBorders.left
 
         if (numberOfThreads <= 1) {
             this.mergeSortingMultiThread(
-                Borders(toSortBorders.left, middle),
+                Borders(toSortBorders.left, toSortBorders.middle),
                 currentList, 1,
                 0
             )
 
             this.mergeSortingMultiThread(
-                Borders(middle + 1, toSortBorders.right),
+                Borders(toSortBorders.middle + 1, toSortBorders.right),
                 currentList, 1,
                 currentMiddle + 1
             )
@@ -124,7 +123,7 @@ class Sorter {
         val leftThread =
             Thread {
                 this.mergeSortingMultiThread(
-                    Borders(toSortBorders.left, middle),
+                    Borders(toSortBorders.left, toSortBorders.middle),
                     currentList, leftNumberOfThreads,
                     0
                 )
@@ -132,7 +131,7 @@ class Sorter {
         val rightThread =
             Thread {
                 this.mergeSortingMultiThread(
-                    Borders(middle + 1, toSortBorders.right),
+                    Borders(toSortBorders.middle + 1, toSortBorders.right),
                     currentList, rightNumberOfThreads,
                     currentMiddle + 1
                 )
