@@ -2,9 +2,9 @@
 
 package homework6
 
-class Sorter {
-    fun sort(listToSort: MutableList<Int>, numberOfThreads: Int) =
-        listToSort.mergeSortingMultiThread(Borders(0, listToSort.lastIndex), listToSort, numberOfThreads)
+object Sorter {
+    fun MutableList<Int>.sort(numberOfThreads: Int) =
+        this.mergeSortingMultiThread(Borders(0, this.lastIndex), this, numberOfThreads)
 
     private fun MutableList<Int>.binarySearch(key: Int, borders: Borders): Int {
         var left = borders.left

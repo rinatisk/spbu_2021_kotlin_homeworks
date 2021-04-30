@@ -2,6 +2,7 @@
 
 package homework6
 
+import homework6.Sorter.sort
 import org.jfree.chart.ChartPanel
 import org.jfree.chart.JFreeChart
 import org.jfree.chart.axis.NumberAxis
@@ -67,7 +68,7 @@ class Application(private val numberOfThreads: Int = 4) {
         val series = XYSeries(key)
             for (size in 100..900 step 100) {
                 val startTime = System.nanoTime()
-                Sorter().sort(randomList(size), thread)
+                randomList(size).sort(thread)
                 val endTime = System.nanoTime()
                 series.add(size, (endTime - startTime) / 100_000)
             }
