@@ -34,6 +34,6 @@ val body = json.obj("main")
 fun main() {
     println(response)
     println(json)
-    println(body?.string("temp"))
+    println(body?.double("temp"))
     println(json.string("name"))
 }
