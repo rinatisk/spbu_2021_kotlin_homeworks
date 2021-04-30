@@ -49,7 +49,6 @@ internal class SorterTest {
     @MethodSource("testSort")
     @ParameterizedTest(name = "sort{index}, {1}")
     fun sort(expected: MutableList<Int>, actual: MutableList<Int>) {
-
         Sorter().sort(actual, 10)
 
         assertEquals(expected, actual)
