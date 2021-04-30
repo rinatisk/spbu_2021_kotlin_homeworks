@@ -25,6 +25,7 @@ object WeatherApp {
     fun getData(city: String): StringBuilder {
         return StringBuilder(getJson(city))
     }
+
     fun parseData(stringBuilder: StringBuilder): City {
         val parser = default()
         val json: JsonObject = parser.parse(stringBuilder) as JsonObject
