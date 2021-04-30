@@ -1,5 +1,6 @@
 package homework6
 
+import homework6.Sorter.sort
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
@@ -49,7 +50,7 @@ internal class SorterTest {
     @MethodSource("testSort")
     @ParameterizedTest(name = "sort{index}, {1}")
     fun sort(expected: MutableList<Int>, actual: MutableList<Int>) {
-        Sorter().sort(actual, 10)
+        actual.sort(10)
 
         assertEquals(expected, actual)
     }
@@ -57,7 +58,7 @@ internal class SorterTest {
     @MethodSource("testMT")
     @ParameterizedTest(name = "Mt{index}, {1}")
     fun multiThread(expected: MutableList<Int>, actual: MutableList<Int>, numberOfThreads: Int) {
-        Sorter().sort(actual, numberOfThreads)
+        actual.sort(numberOfThreads)
 
         assertEquals(expected, actual)
     }

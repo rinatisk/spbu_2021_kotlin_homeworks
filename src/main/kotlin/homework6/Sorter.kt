@@ -17,8 +17,8 @@ object Sorter {
     }
 
     data class Borders(val left: Int, val right: Int) {
-        val size get() = right - left + 1
-        val middle get() = (left + right) / 2
+        val size = right - left + 1
+        val middle = (left + right) / 2
     }
 
     private fun MutableList<Int>.multiThreadingMerge(
@@ -49,28 +49,31 @@ object Sorter {
 
         if (numberOfThreads < 1) {
             this.multiThreadingMerge(
-                resultList, Borders(leftBorders.left, leftBorders.middle - 1),
-                Borders(rightBorders.left, secondMiddle - 1), leftStart, numberOfThreads
+                resultList, Borders(leftBorders.left, leftBorders.middle),
+                Borders(rightBorders.left, secondMiddle - 1), leftStart, 1
             )
             this.multiThreadingMerge(
                 resultList, Borders(leftBorders.middle + 1, leftBorders.right),
                 Borders(secondMiddle, rightBorders.right),
-                listMiddle + 1, numberOfThreads
+                listMiddle + 1, 1
             )
             return
         }
 
+        val leftNumberOfThreads = numberOfThreads / 2
+        val rightNumberOfThreads = numberOfThreads - leftNumberOfThreads
+
         val leftThread = Thread {
             this.multiThreadingMerge(
                 resultList, Borders(leftBorders.left, leftBorders.middle - 1),
-                Borders(rightBorders.left, secondMiddle - 1), leftStart, numberOfThreads - 1
+                Borders(rightBorders.left, secondMiddle - 1), leftStart, leftNumberOfThreads
             )
         }
         val rightThread = Thread {
             this.multiThreadingMerge(
                 resultList, Borders(leftBorders.middle + 1, leftBorders.right),
                 Borders(secondMiddle, rightBorders.right),
-                listMiddle + 1, numberOfThreads - 1
+                listMiddle + 1, rightNumberOfThreads
             )
         }
 

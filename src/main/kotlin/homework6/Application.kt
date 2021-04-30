@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent
 import javax.swing.*
 
 fun main() {
-    Application(6)
+    Application(16)
 }
 
 class Application(private val numberOfThreads: Int = 4) {
