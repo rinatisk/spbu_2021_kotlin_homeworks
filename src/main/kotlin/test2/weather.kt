@@ -2,37 +2,36 @@ package test2
 
 import com.beust.klaxon.Json
 import com.beust.klaxon.JsonObject
-import com.beust.klaxon.Klaxon
-import com.beust.klaxon.Parser
 import com.beust.klaxon.Parser.Companion.default
+import java.io.File
 import java.net.URL
-import java.nio.charset.Charset
-
-
-
 
 val API = "3f29633eeef810afa69ded4ac143231a"
 
-val CITY = "London"
+private fun getJson(city: String) = URL("https://api.openweathermap.org/data/2.5/weather?q=$city&lang=ru&units=metric&appid=$API").readText()
 
-val response = URL("https://api.openweathermap.org/data/2.5/weather?q=$CITY&lang=ru&units=metric&appid=$API").readText()
+fun parseData(city: String) {
+    val parser = default()
+    val stringBuilder = StringBuilder(getJson(city))
+    val json: JsonObject = parser.parse(stringBuilder) as JsonObject
+    val body = json.obj("main")
+}
 
-data class City(
-    @Json(name = "temp")
-    val temp: String,
-
-    @Json(name = "name")
-    val name: String
-)
-
-val parser = default(  )
-val stringBuilder = StringBuilder(response)
-val json: JsonObject = parser.parse(stringBuilder) as JsonObject
-val body = json.obj("main")
-
+object Util {
+    fun getResource(name: String): String = this.javaClass.getResource(name).file
+}
 
 fun main() {
-    println(response)
+
+    val file = Util.getResource("cities.txt")
+    val cities = File(file).readText().split(" ")
+
+    cities.forEach() {
+        val response = URL("https://api.openweathermap.org/data/2.5/weather?q=$it&lang=ru&units=metric&appid=$API").readText()
+        println(body)
+    }
+
+    println(cities)
     println(json)
     println(body?.double("temp"))
     println(json.string("name"))
