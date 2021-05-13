@@ -23,6 +23,7 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.14.2")
     implementation("com.squareup:kotlinpoet:1.7.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.0")
+    implementation("com.beust:klaxon:5.5")
 }
 
 
