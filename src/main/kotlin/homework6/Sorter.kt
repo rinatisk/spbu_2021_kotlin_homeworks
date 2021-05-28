@@ -41,10 +41,11 @@ object Sorter {
             return
         }
 
-           println(resultList)
+        println(resultList)
 
-        val secondMiddle = if (rightBorders.left > rightBorders.right) rightBorders.left else
+        val secondMiddle = if (rightBorders.left > rightBorders.right) rightBorders.left else {
             this.binarySearch(this[leftBorders.middle], rightBorders)
+        }
 
         val listMiddle = leftStart + (leftBorders.middle - leftBorders.left) + (secondMiddle - rightBorders.left)
 
@@ -113,13 +114,6 @@ object Sorter {
                         currentList, 1,
                         currentMiddle + 1
                     )
-                    currentList.multiThreadingMerge(
-                        list,
-                        Borders(0, currentMiddle),
-                        Borders(currentMiddle + 1, toSortBorders.size - 1),
-                        leftStart,
-                        numberOfThreads
-                    )
                 } else {
 
                     val leftNumberOfThreads = numberOfThreads / 2
@@ -145,15 +139,15 @@ object Sorter {
                     rightThread.start()
                     leftThread.join()
                     rightThread.join()
-
-                    currentList.multiThreadingMerge(
-                        list,
-                        Borders(0, currentMiddle),
-                        Borders(currentMiddle + 1, toSortBorders.size - 1),
-                        leftStart,
-                        numberOfThreads
-                    )
                 }
+
+                currentList.multiThreadingMerge(
+                    list,
+                    Borders(0, currentMiddle),
+                    Borders(currentMiddle + 1, toSortBorders.size - 1),
+                    leftStart,
+                    numberOfThreads
+                )
             }
         }
     }
