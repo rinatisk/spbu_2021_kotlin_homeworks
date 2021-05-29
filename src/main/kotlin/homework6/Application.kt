@@ -21,7 +21,7 @@ import kotlin.math.log2
 import kotlin.math.pow
 
 fun main() {
-    Application(16)
+    Application(8)
 }
 
 class Application(private val numberOfThreads: Int = 4) {
@@ -42,7 +42,7 @@ class Application(private val numberOfThreads: Int = 4) {
         val controlPanel = JPanel()
         controlPanel.add(JButton(UpdateAction(this, plot, 0)))
         var i = 1
-        while (i * 2 <= numberOfThreads) {
+        while (i <= numberOfThreads) {
             val jcb = JCheckBox(VisibleAction(renderer, log2(i.toDouble()).toInt()))
             println(log2(i.toDouble()).toInt())
             jcb.isSelected = true
@@ -62,8 +62,8 @@ class Application(private val numberOfThreads: Int = 4) {
     fun generateData(): XYSeriesCollection {
         val data = XYSeriesCollection()
         var i = 1
-        while (i * 2 <= numberOfThreads) {
-            data.addSeries(generateSeries("Threads $i", i, 10000, 100000))
+        while (i <= numberOfThreads) {
+            data.addSeries(generateSeries("Threads $i", i, 1000, 50000))
             i *= 2
         }
         return data
