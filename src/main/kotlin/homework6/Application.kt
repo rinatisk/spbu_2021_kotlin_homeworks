@@ -17,9 +17,11 @@ import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.event.ActionEvent
 import javax.swing.*
+import kotlin.math.log2
+import kotlin.math.pow
 
 fun main() {
-    Application(8)
+    Application(16)
 }
 
 class Application(private val numberOfThreads: Int = 4) {
@@ -39,11 +41,14 @@ class Application(private val numberOfThreads: Int = 4) {
         chartPanel.preferredSize = Dimension(1000, 600)
         val controlPanel = JPanel()
         controlPanel.add(JButton(UpdateAction(this, plot, 0)))
-        for (i in 0 until numberOfThreads) {
-            val jcb = JCheckBox(VisibleAction(renderer, i))
+        var i = 1
+        while (i * 2 <= numberOfThreads) {
+            val jcb = JCheckBox(VisibleAction(renderer, log2(i.toDouble()).toInt()))
+            println(log2(i.toDouble()).toInt())
             jcb.isSelected = true
-            renderer.setSeriesVisible(i, true)
+            renderer.setSeriesVisible(log2(i.toDouble()).toInt(), true)
             controlPanel.add(jcb)
+            i *= 2
         }
         val frame = JFrame("Mt Merge Sort")
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
@@ -56,19 +61,21 @@ class Application(private val numberOfThreads: Int = 4) {
 
     fun generateData(): XYSeriesCollection {
         val data = XYSeriesCollection()
-        for (i in 0 until numberOfThreads) {
-            data.addSeries(generateSeries("Threads ${i + 1}", i + 1))
+        var i = 1
+        while (i * 2 <= numberOfThreads) {
+            data.addSeries(generateSeries("Threads $i", i, 10000, 100000))
+            i *= 2
         }
         return data
     }
 
     private fun randomList(size: Int): MutableList<Int> = MutableList(size) { kotlin.random.Random.nextInt() }
 
-    private fun generateSeries(key: String, thread: Int): XYSeries {
+    private fun generateSeries(key: String, numberOfThreads: Int, stepNumber: Int, maxSize: Int): XYSeries {
         val series = XYSeries(key)
-            for (size in 1000..100000 step 10000) {
+            for (size in 1000..maxSize step stepNumber) {
                 val startTime = System.nanoTime()
-                randomList(size).sort(thread)
+                randomList(size).sort(numberOfThreads)
                 val endTime = System.nanoTime()
                 series.add(size, (endTime - startTime) / 100_000)
             }
@@ -85,7 +92,7 @@ private class UpdateAction(val app: Application, plot: CombinedDomainXYPlot, i: 
 }
 
 private class VisibleAction(private val renderer: XYItemRenderer, private val i: Int) :
-    AbstractAction("Threads ${i + 1}") {
+    AbstractAction("Threads ${2.0.pow(i).toInt()}") {
     override fun actionPerformed(e: ActionEvent) {
         renderer.setSeriesVisible(i, !renderer.getSeriesVisible(i))
     }
