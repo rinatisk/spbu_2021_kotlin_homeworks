@@ -19,7 +19,7 @@ import java.awt.event.ActionEvent
 import javax.swing.*
 
 fun main() {
-    Application(1)
+    Application(8)
 }
 
 class Application(private val numberOfThreads: Int = 4) {
@@ -66,11 +66,12 @@ class Application(private val numberOfThreads: Int = 4) {
 
     private fun generateSeries(key: String, thread: Int): XYSeries {
         val series = XYSeries(key)
-            val size = 4
+            for (size in 1000..100000 step 10000) {
                 val startTime = System.nanoTime()
                 randomList(size).sort(thread)
                 val endTime = System.nanoTime()
                 series.add(size, (endTime - startTime) / 100_000)
+            }
 
         return series
     }

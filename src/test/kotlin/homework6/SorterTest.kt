@@ -49,16 +49,16 @@ internal class SorterTest {
 
     @MethodSource("testSort")
     @ParameterizedTest(name = "sort{index}, {1}")
-    fun sort(expected: MutableList<Int>, actual: MutableList<Int>) {
-        actual.sort(10)
+    fun sort(expected: MutableList<Int>, input: MutableList<Int>) {
+        val actual = input.sort(10)
 
         assertEquals(expected, actual)
     }
 
     @MethodSource("testMT")
     @ParameterizedTest(name = "Mt{index}, {1}")
-    fun multiThread(expected: MutableList<Int>, actual: MutableList<Int>, numberOfThreads: Int) {
-        actual.sort(numberOfThreads)
+    fun multiThread(expected: MutableList<Int>, input: MutableList<Int>, numberOfThreads: Int) {
+        val actual = input.sort(numberOfThreads)
 
         assertEquals(expected, actual)
     }

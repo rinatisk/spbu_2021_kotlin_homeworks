@@ -3,8 +3,12 @@
 package homework6
 
 object Sorter {
-    fun MutableList<Int>.sort(numberOfThreads: Int) =
-        this.mergeSortingMultiThread(Borders(0, this.lastIndex), this, numberOfThreads)
+
+    fun MutableList<Int>.sort(numberOfThreads: Int): List<Int> {
+        val sortedList = MutableList(this.size) { 0 }
+        this.multiThreadSort(sortedList, Borders(0, this.size - 1), 0, numberOfThreads)
+        return sortedList
+    }
 
     private fun MutableList<Int>.binarySearch(key: Int, borders: Borders): Int {
         var left = borders.left
@@ -21,45 +25,41 @@ object Sorter {
         val middle = (left + right) / 2
     }
 
-    private fun MutableList<Int>.multiThreadingMerge(
+    private fun MutableList<Int>.multiThreadMerge(
         resultList: MutableList<Int>,
         leftBorders: Borders,
         rightBorders: Borders,
-        leftStart: Int,
+        start: Int,
         numberOfThreads: Int
     ) {
+
         if (kotlin.math.max(leftBorders.size, rightBorders.size) == 0) return
 
         if (leftBorders.size < rightBorders.size) {
-            this.multiThreadingMerge(
-                resultList,
-                rightBorders,
-                leftBorders,
-                leftStart,
-                numberOfThreads
-            )
+            this.multiThreadMerge(resultList, rightBorders, leftBorders, start, numberOfThreads)
             return
         }
 
-        println(resultList)
+        val secondMiddle = this.binarySearch(this[leftBorders.middle], rightBorders)
 
-        val secondMiddle = if (rightBorders.left > rightBorders.right) rightBorders.left else {
-            this.binarySearch(this[leftBorders.middle], rightBorders)
-        }
-
-        val listMiddle = leftStart + (leftBorders.middle - leftBorders.left) + (secondMiddle - rightBorders.left)
+        val listMiddle = start + (leftBorders.middle - leftBorders.left) + (secondMiddle - rightBorders.left)
 
         resultList[listMiddle] = this[leftBorders.middle]
 
         if (numberOfThreads < 1) {
-            this.multiThreadingMerge(
-                resultList, Borders(leftBorders.left, leftBorders.middle),
-                Borders(rightBorders.left, secondMiddle - 1), leftStart, 1
+            this.multiThreadMerge(
+                resultList,
+                Borders(leftBorders.left, leftBorders.middle - 1),
+                Borders(rightBorders.left, secondMiddle - 1),
+                start,
+                numberOfThreads
             )
-            this.multiThreadingMerge(
-                resultList, Borders(leftBorders.middle + 1, leftBorders.right),
+            this.multiThreadMerge(
+                resultList,
+                Borders(leftBorders.middle + 1, leftBorders.right),
                 Borders(secondMiddle, rightBorders.right),
-                listMiddle + 1, 1
+                listMiddle + 1,
+                numberOfThreads
             )
         } else {
 
@@ -67,13 +67,14 @@ object Sorter {
             val rightNumberOfThreads = numberOfThreads - leftNumberOfThreads
 
             val leftThread = Thread {
-                this.multiThreadingMerge(
+                this.multiThreadMerge(
                     resultList, Borders(leftBorders.left, leftBorders.middle - 1),
-                    Borders(rightBorders.left, secondMiddle - 1), leftStart, leftNumberOfThreads
+                    Borders(rightBorders.left, secondMiddle - 1),
+                    start, leftNumberOfThreads
                 )
             }
             val rightThread = Thread {
-                this.multiThreadingMerge(
+                this.multiThreadMerge(
                     resultList, Borders(leftBorders.middle + 1, leftBorders.right),
                     Borders(secondMiddle, rightBorders.right),
                     listMiddle + 1, rightNumberOfThreads
@@ -87,66 +88,53 @@ object Sorter {
         }
     }
 
-    private fun MutableList<Int>.mergeSortingMultiThread(
-        toSortBorders: Borders,
-        list: MutableList<Int>,
-        numberOfThreads: Int,
-        leftStart: Int = 0
+    private fun MutableList<Int>.multiThreadSort(
+        resultList: MutableList<Int>,
+        borders: Borders,
+        start: Int,
+        numberOfThreads: Int
     ) {
-
-        when (toSortBorders.size) {
+        when (borders.size) {
             0 -> return
-            1 -> list[leftStart] = this[toSortBorders.left]
+            1 -> {
+                resultList[start] = this[borders.left]
+            }
             else -> {
-
-                val currentList = MutableList(toSortBorders.size) { 0 }
-                val currentMiddle = toSortBorders.middle - toSortBorders.left
-
+                val newList = MutableList(borders.size) { 0 }
+                val currentMiddle = borders.middle - borders.left
                 if (numberOfThreads < 1) {
-                    this.mergeSortingMultiThread(
-                        Borders(toSortBorders.left, toSortBorders.middle),
-                        currentList, 1,
-                        0
+                    this.multiThreadSort(
+                        newList, Borders(borders.left, borders.middle),
+                        0, numberOfThreads
                     )
-
-                    this.mergeSortingMultiThread(
-                        Borders(toSortBorders.middle + 1, toSortBorders.right),
-                        currentList, 1,
-                        currentMiddle + 1
+                    this.multiThreadSort(
+                        newList, Borders(borders.middle + 1, borders.right),
+                        currentMiddle + 1, numberOfThreads
                     )
                 } else {
+                    val leftThread = Thread {
+                        this.multiThreadSort(
+                            newList, Borders(borders.left, borders.middle),
+                            0, numberOfThreads - 1
+                        )
+                    }
+                    val rightThread = Thread {
+                        this.multiThreadSort(
+                            newList, Borders(borders.middle + 1, borders.right),
+                            currentMiddle + 1, numberOfThreads - 1
+                        )
+                    }
 
-                    val leftNumberOfThreads = numberOfThreads / 2
-                    val rightNumberOfThreads = numberOfThreads - leftNumberOfThreads
-
-                    val leftThread =
-                        Thread {
-                            this.mergeSortingMultiThread(
-                                Borders(toSortBorders.left, toSortBorders.middle),
-                                currentList, leftNumberOfThreads,
-                                0
-                            )
-                        }
-                    val rightThread =
-                        Thread {
-                            this.mergeSortingMultiThread(
-                                Borders(toSortBorders.middle + 1, toSortBorders.right),
-                                currentList, rightNumberOfThreads,
-                                currentMiddle + 1
-                            )
-                        }
                     leftThread.start()
                     rightThread.start()
                     leftThread.join()
                     rightThread.join()
                 }
-
-                currentList.multiThreadingMerge(
-                    list,
+                newList.multiThreadMerge(
+                    resultList,
                     Borders(0, currentMiddle),
-                    Borders(currentMiddle + 1, toSortBorders.size - 1),
-                    leftStart,
-                    numberOfThreads
+                    Borders(currentMiddle + 1, borders.size - 1),
+                    start, numberOfThreads
                 )
             }
         }
