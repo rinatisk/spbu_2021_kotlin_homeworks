@@ -1,12 +1,12 @@
 package homework6
 
-import homework6.Sorter.sort
+import homework6.MergeSorter.mergeSort
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class SorterTest {
+internal class mergeSorterTest {
     companion object {
         @JvmStatic
         fun testSort(): List<Arguments> = listOf(
@@ -50,7 +50,7 @@ internal class SorterTest {
     @MethodSource("testSort")
     @ParameterizedTest(name = "sort{index}, {1}")
     fun sort(expected: MutableList<Int>, input: MutableList<Int>) {
-        val actual = input.sort(10)
+        val actual = input.mergeSort(10)
 
         assertEquals(expected, actual)
     }
@@ -58,7 +58,7 @@ internal class SorterTest {
     @MethodSource("testMT")
     @ParameterizedTest(name = "Mt{index}, {1}")
     fun multiThread(expected: MutableList<Int>, input: MutableList<Int>, numberOfThreads: Int) {
-        val actual = input.sort(numberOfThreads)
+        val actual = input.mergeSort(numberOfThreads)
 
         assertEquals(expected, actual)
     }

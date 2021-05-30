@@ -2,7 +2,7 @@
 
 package homework6
 
-import homework6.Sorter.sort
+import homework6.MergeSorter.mergeSort
 import org.jfree.chart.ChartPanel
 import org.jfree.chart.JFreeChart
 import org.jfree.chart.axis.NumberAxis
@@ -73,7 +73,6 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
         var i = 1
         while (i <= numberOfThreads) {
             val jcb = JCheckBox(VisibleAction(renderer, log2(i.toDouble()).toInt()))
-            println(log2(i.toDouble()).toInt())
             jcb.isSelected = true
             renderer.setSeriesVisible(log2(i.toDouble()).toInt(), true)
             controlPanel.add(jcb)
@@ -100,9 +99,9 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
         val series = XYSeries(key)
         for (size in 1000..maxSize step stepNumber) {
             val startTime = System.nanoTime()
-            getRandomList(size).sort(numberOfThreads)
+            getRandomList(size).mergeSort(numberOfThreads)
             val endTime = System.nanoTime()
-            series.add(size, (endTime - startTime) / 100_000)
+            series.add(size, (endTime - startTime))
         }
 
         return series

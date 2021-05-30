@@ -2,9 +2,9 @@
 
 package homework6
 
-object Sorter {
+object MergeSorter {
 
-    fun MutableList<Int>.sort(numberOfThreads: Int): List<Int> {
+    fun MutableList<Int>.mergeSort(numberOfThreads: Int): List<Int> {
         val sortedList = MutableList(this.size) { 0 }
         this.multiThreadSort(sortedList, Borders(0, this.size - 1), 0, numberOfThreads)
         return sortedList
@@ -46,7 +46,7 @@ object Sorter {
 
         resultList[listMiddle] = this[leftBorders.middle]
 
-        if (numberOfThreads < 1) {
+        if (numberOfThreads <= 1) {
             this.multiThreadMerge(
                 resultList,
                 Borders(leftBorders.left, leftBorders.middle - 1),
