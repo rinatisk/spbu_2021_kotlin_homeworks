@@ -40,18 +40,18 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
         plot.isRangePannable = true
         plot.add(
             XYPlot(
-                generateData(stepNumber, maxSize), null, NumberAxis("Time"), renderer
+                generateData(), null, NumberAxis("Time"), renderer
             )
         )
         plot.orientation = PlotOrientation.VERTICAL
         return plot
     }
 
-    private fun generateData(stepNumber: Int, maxSize: Int): XYSeriesCollection {
+    private fun generateData(): XYSeriesCollection {
         val data = XYSeriesCollection()
         var i = 1
         while (i <= numberOfThreads) {
-            data.addSeries(generateSeries("Threads $i", i, stepNumber, maxSize))
+            data.addSeries(generateSeries("Threads $i"))
             i *= 2
         }
         return data
@@ -82,7 +82,7 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
 
     private fun generateControlPanel(plot: CombinedDomainXYPlot): JPanel {
         val controlPanel = JPanel()
-        controlPanel.add(JButton(UpdateAction(this, plot, 0, stepNumber, maxSize)))
+        controlPanel.add(JButton(UpdateAction(this, plot, 0)))
         return controlPanel
     }
 
@@ -95,7 +95,7 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
         return chartPanel
     }
 
-    private fun generateSeries(key: String, numberOfThreads: Int, stepNumber: Int, maxSize: Int): XYSeries {
+    private fun generateSeries(key: String): XYSeries {
         val series = XYSeries(key)
         for (size in 1000..maxSize step stepNumber) {
             val startTime = System.nanoTime()
@@ -110,13 +110,11 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
     private class UpdateAction(
         val app: Application,
         plot: CombinedDomainXYPlot,
-        i: Int,
-        val stepNumber: Int,
-        val maxSize: Int
+        i: Int
     ) : AbstractAction("Update plot ") {
         private val plot: XYPlot = plot.subplots[i] as XYPlot
         override fun actionPerformed(e: ActionEvent) {
-            plot.dataset = app.generateData(stepNumber, maxSize)
+            plot.dataset = app.generateData()
         }
     }
 
