@@ -26,21 +26,7 @@ fun main() {
 
 class Application(private val numberOfThreads: Int = 4, private val stepNumber: Int, private val maxSize: Int) {
 
-    private class UpdateAction(val app: Application, plot: CombinedDomainXYPlot, i: Int, val stepNumber: Int, val maxSize: Int) : AbstractAction("Update plot ") {
-        private val plot: XYPlot = plot.subplots[i] as XYPlot
-        override fun actionPerformed(e: ActionEvent) {
-            plot.dataset = app.generateData(stepNumber, maxSize)
-        }
-    }
-
-    private class VisibleAction(private val renderer: XYItemRenderer, private val i: Int) :
-        AbstractAction("Threads ${2.0.pow(i).toInt()}") {
-        override fun actionPerformed(e: ActionEvent) {
-            renderer.setSeriesVisible(i, !renderer.getSeriesVisible(i))
-        }
-    }
-
-     init {
+    init {
         val renderer: XYItemRenderer = StandardXYItemRenderer(StandardXYItemRenderer.SHAPES_AND_LINES)
         val plot = generatePlot(renderer)
         val chartPanel = generateChartPanel(plot)
@@ -52,9 +38,11 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
     private fun generatePlot(renderer: XYItemRenderer): CombinedDomainXYPlot {
         val plot = CombinedDomainXYPlot(NumberAxis("Size"))
         plot.isRangePannable = true
-        plot.add(XYPlot(
-            generateData(stepNumber, maxSize), null, NumberAxis("Time"), renderer
-        ))
+        plot.add(
+            XYPlot(
+                generateData(stepNumber, maxSize), null, NumberAxis("Time"), renderer
+            )
+        )
         plot.orientation = PlotOrientation.VERTICAL
         return plot
     }
@@ -110,14 +98,33 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
 
     private fun generateSeries(key: String, numberOfThreads: Int, stepNumber: Int, maxSize: Int): XYSeries {
         val series = XYSeries(key)
-            for (size in 1000..maxSize step stepNumber) {
-                val startTime = System.nanoTime()
-                getRandomList(size).sort(numberOfThreads)
-                val endTime = System.nanoTime()
-                series.add(size, (endTime - startTime) / 100_000)
-            }
+        for (size in 1000..maxSize step stepNumber) {
+            val startTime = System.nanoTime()
+            getRandomList(size).sort(numberOfThreads)
+            val endTime = System.nanoTime()
+            series.add(size, (endTime - startTime) / 100_000)
+        }
 
         return series
     }
-}
 
+    private class UpdateAction(
+        val app: Application,
+        plot: CombinedDomainXYPlot,
+        i: Int,
+        val stepNumber: Int,
+        val maxSize: Int
+    ) : AbstractAction("Update plot ") {
+        private val plot: XYPlot = plot.subplots[i] as XYPlot
+        override fun actionPerformed(e: ActionEvent) {
+            plot.dataset = app.generateData(stepNumber, maxSize)
+        }
+    }
+
+    private class VisibleAction(private val renderer: XYItemRenderer, private val i: Int) :
+        AbstractAction("Threads ${2.0.pow(i).toInt()}") {
+        override fun actionPerformed(e: ActionEvent) {
+            renderer.setSeriesVisible(i, !renderer.getSeriesVisible(i))
+        }
+    }
+}
