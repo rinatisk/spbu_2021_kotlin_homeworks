@@ -1,5 +1,3 @@
-@file:Suppress("ReturnCount")
-
 package homework6
 
 object MergeSorter {
