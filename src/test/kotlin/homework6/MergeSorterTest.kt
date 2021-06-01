@@ -15,12 +15,12 @@ internal class MergeSorterTest {
         fun testSort(): List<Arguments> {
             val argumentsList = mutableListOf<Arguments>()
             var threadNumber = 1
-            while (threadNumber < 32) {
-                for (size in 0..10000 step 2000) {
+            while (threadNumber < 64) {
+                for (size in 0..5000 step 2500) {
                     val list = getRandomList(size)
                     argumentsList.add(Arguments.of(threadNumber, list, list.sorted()))
                 }
-                threadNumber *= 2
+                threadNumber *= 4
             }
             return argumentsList
         }
