@@ -14,11 +14,13 @@ internal class MergeSorterTest {
         @JvmStatic
         fun testSort(): List<Arguments> {
             val argumentsList = mutableListOf<Arguments>()
-            for (threadNumber in 1..8) {
+            var threadNumber = 1
+            while (threadNumber < 32) {
                 for (size in 0..10000 step 2000) {
                     val list = getRandomList(size)
                     argumentsList.add(Arguments.of(threadNumber, list, list.sorted()))
                 }
+                threadNumber *= 2
             }
             return argumentsList
         }

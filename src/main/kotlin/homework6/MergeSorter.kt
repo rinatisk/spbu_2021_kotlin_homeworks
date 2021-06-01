@@ -100,7 +100,7 @@ object MergeSorter {
             else -> {
                 val newList = MutableList(borders.size) { 0 }
                 val currentMiddle = borders.middle - borders.left
-                if (numberOfThreads < 1) {
+                if (numberOfThreads <= 1) {
                     this.multiThreadSort(
                         newList, Borders(borders.left, borders.middle),
                         0, numberOfThreads

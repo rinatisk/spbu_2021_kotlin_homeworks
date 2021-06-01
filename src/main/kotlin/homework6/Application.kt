@@ -21,12 +21,18 @@ import kotlin.math.log2
 import kotlin.math.pow
 
 fun main() {
-    Application(8, 1000, 50000)
+    Application(8, 1000, 1000, 50000)
 }
 
-class Application(private val numberOfThreads: Int = 4, private val stepNumber: Int, private val maxSize: Int) {
+class Application(
+    private val maxNumberOfThreads: Int = 4,
+    private val minSize: Int,
+    private val stepNumber: Int,
+    private val maxSize: Int
+) {
 
     init {
+        if (minSize > maxSize) throw IndexOutOfBoundsException("Invalid min and max sizes")
         val renderer: XYItemRenderer = StandardXYItemRenderer(StandardXYItemRenderer.SHAPES_AND_LINES)
         val plot = generatePlot(renderer)
         val chartPanel = generateChartPanel(plot)
@@ -50,8 +56,8 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
     private fun generateData(): XYSeriesCollection {
         val data = XYSeriesCollection()
         var i = 1
-        while (i <= numberOfThreads) {
-            data.addSeries(generateSeries("Threads $i"))
+        while (i <= maxNumberOfThreads) {
+            data.addSeries(generateSeries("Threads $i", i))
             i *= 2
         }
         return data
@@ -71,7 +77,7 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
 
     private fun generateJCheckBox(renderer: XYItemRenderer, controlPanel: JPanel) {
         var i = 1
-        while (i <= numberOfThreads) {
+        while (i <= maxNumberOfThreads) {
             val jcb = JCheckBox(VisibleAction(renderer, log2(i.toDouble()).toInt()))
             jcb.isSelected = true
             renderer.setSeriesVisible(log2(i.toDouble()).toInt(), true)
@@ -95,9 +101,9 @@ class Application(private val numberOfThreads: Int = 4, private val stepNumber: 
         return chartPanel
     }
 
-    private fun generateSeries(key: String): XYSeries {
+    private fun generateSeries(key: String, numberOfThreads: Int): XYSeries {
         val series = XYSeries(key)
-        for (size in 1000..maxSize step stepNumber) {
+        for (size in minSize..maxSize step stepNumber) {
             val startTime = System.nanoTime()
             getRandomList(size).mergeSort(numberOfThreads)
             val endTime = System.nanoTime()
