@@ -3,23 +3,22 @@ package homework7
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import java.lang.IllegalStateException
 
 class Matrix(private val rows: Array<IntArray>) {
 
     private val size = rows.size
 
     init {
-        rows.forEach { if (it.size != rows.size) throw IllegalStateException("Matrix not square") }
+        rows.forEach { require(it.size == size) { "Matrix not square" } }
     }
 
     operator fun times(operand: Matrix): Matrix {
 
-        if (this.size != operand.size) throw IllegalStateException("Matrices have different sizes")
+        require(this.size == operand.size) { "Matrices have different sizes" }
 
         val jobsList = mutableListOf<Job>()
 
-        val resultRows = Array(rows.size) { IntArray(rows.size) { 0 } }
+        val resultRows = Array(size) { IntArray(size) { 0 } }
         runBlocking {
             for (i in rows.indices) {
                 for (j in rows.indices) {

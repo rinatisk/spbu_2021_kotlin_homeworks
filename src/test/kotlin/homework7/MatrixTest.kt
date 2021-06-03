@@ -148,14 +148,14 @@ internal class MatrixTest {
     @MethodSource("invalidMatrices")
     fun testInvalidMatrices(firstMatrix: Matrix, secondMatrix: Matrix) {
 
-        assertThrows(IllegalStateException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             firstMatrix * secondMatrix
         }
     }
 
     @Test
     fun `test not square matrix`() {
-        assertThrows(IllegalStateException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             Matrix(arrayOf(
                 intArrayOf(1, 1, 1),
                 intArrayOf(1, 1, 1)))
@@ -164,7 +164,7 @@ internal class MatrixTest {
 
     @Test
     fun `test strange not square matrix`() {
-        assertThrows(IllegalStateException::class.java) {
+        assertThrows(IllegalArgumentException::class.java) {
             Matrix(arrayOf(
                 intArrayOf(1, 1, 1, 1, 1, 1),
                 intArrayOf(1, 1, 1, 1, 1),
