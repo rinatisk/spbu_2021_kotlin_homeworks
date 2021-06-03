@@ -1,23 +1,27 @@
 package homework7
 
-abstract class MergeSorter{
+abstract class MergeSorter {
 
     fun mergeSort(toSortList: MutableList<Int>, numberOfThreads: Int): List<Int> {
         val sortedList = MutableList(toSortList.size) { 0 }
-        toSortList.parallelSort(sortedList, Borders(0, toSortList.size - 1), 0, numberOfThreads)
+        toSortList.parallelSort(numberOfThreads, Borders(0, toSortList.size - 1), 0, sortedList)
         return sortedList
     }
 
-    abstract fun MutableList<Int>.parallelSort(resultList: MutableList<Int>,
-                           borders: Borders,
-                           leftStart: Int,
-                           numberOfThreads: Int)
+    abstract fun MutableList<Int>.parallelSort(
+        numberOfThreads: Int = 0,
+        borders: Borders,
+        leftStart: Int,
+        resultList: MutableList<Int>
+    )
 
-    abstract fun MutableList<Int>.parallelMerge(resultList: MutableList<Int>,
-                                                leftBorders: Borders,
-                                                rightBorders: Borders,
-                                                leftStart: Int,
-                                                numberOfThreads: Int)
+    abstract fun MutableList<Int>.parallelMerge(
+        numberOfThreads: Int = 0,
+        leftBorders: Borders,
+        rightBorders: Borders,
+        leftStart: Int,
+        resultList: MutableList<Int>
+    )
 
     protected fun MutableList<Int>.binarySearch(key: Int, borders: Borders): Int {
         var left = borders.left
@@ -33,5 +37,4 @@ abstract class MergeSorter{
         val size = right - left + 1
         val middle = (left + right) / 2
     }
-
 }

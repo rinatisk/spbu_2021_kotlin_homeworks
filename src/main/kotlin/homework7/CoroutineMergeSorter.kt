@@ -1,8 +1,10 @@
-package homework6
+package homework7
 
-import homework7.MergeSorter
+import homework6.Application
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
-object MultiThreadingMergeSorter : MergeSorter() {
+object CoroutineMergeSorter : MergeSorter() {
 
     override fun MutableList<Int>.parallelMerge(
         numberOfThreads: Int,
@@ -41,29 +43,24 @@ object MultiThreadingMergeSorter : MergeSorter() {
                 resultList
             )
         } else {
-
-            val leftNumberOfThreads = numberOfThreads / 2
-            val rightNumberOfThreads = numberOfThreads - leftNumberOfThreads
-
-            val leftThread = Thread {
-                this.parallelMerge(
-                    leftNumberOfThreads, Borders(leftBorders.left, leftBorders.middle - 1),
-                    Borders(rightBorders.left, secondMiddle - 1),
-                    leftStart, resultList
-                )
+            runBlocking {
+                launch {
+                    this@parallelMerge.parallelMerge(
+                        leftBorders = Borders(leftBorders.left, leftBorders.middle - 1),
+                        rightBorders = Borders(rightBorders.left, secondMiddle - 1),
+                        leftStart = leftStart,
+                        resultList = resultList
+                    )
+                }
+                launch {
+                    this@parallelMerge.parallelMerge(
+                        leftBorders = Borders(leftBorders.middle + 1, leftBorders.right),
+                        rightBorders = Borders(secondMiddle, rightBorders.right),
+                        leftStart = listMiddle + 1,
+                        resultList = resultList
+                    )
+                }
             }
-            val rightThread = Thread {
-                this.parallelMerge(
-                    rightNumberOfThreads, Borders(leftBorders.middle + 1, leftBorders.right),
-                    Borders(secondMiddle, rightBorders.right),
-                    listMiddle + 1, resultList
-                )
-            }
-
-            leftThread.start()
-            rightThread.start()
-            leftThread.join()
-            rightThread.join()
         }
     }
 
@@ -92,26 +89,20 @@ object MultiThreadingMergeSorter : MergeSorter() {
                     )
                 } else {
 
-                    val leftNumberOfThreads = numberOfThreads / 2
-                    val rightNumberOfThreads = numberOfThreads - leftNumberOfThreads
-
-                    val leftThread = Thread {
-                        this.parallelSort(
-                            leftNumberOfThreads, Borders(borders.left, borders.middle),
-                            0, newList
-                        )
+                    runBlocking {
+                        launch {
+                            this@parallelSort.parallelSort(
+                                borders = Borders(borders.left, borders.middle), leftStart = 0,
+                                resultList = newList
+                            )
+                        }
+                        launch {
+                            this@parallelSort.parallelSort(
+                                borders = Borders(borders.middle + 1, borders.right), leftStart = currentMiddle + 1,
+                                resultList = newList
+                            )
+                        }
                     }
-                    val rightThread = Thread {
-                        this.parallelSort(
-                            rightNumberOfThreads, Borders(borders.middle + 1, borders.right),
-                            currentMiddle + 1, newList
-                        )
-                    }
-
-                    leftThread.start()
-                    rightThread.start()
-                    leftThread.join()
-                    rightThread.join()
                 }
                 newList.parallelMerge(
                     numberOfThreads,
@@ -122,4 +113,7 @@ object MultiThreadingMergeSorter : MergeSorter() {
             }
         }
     }
+}
+fun main() {
+    Application(16, 1000, 1000, 50000, CoroutineMergeSorter)
 }

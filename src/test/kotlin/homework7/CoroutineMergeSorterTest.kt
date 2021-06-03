@@ -1,11 +1,11 @@
-package homework6
+package homework7
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
 
-internal class MultiThreadingMergeSorterTest {
+internal class CoroutineMergeSorterTest {
     companion object {
 
         private fun getRandomList(size: Int): MutableList<Int> = MutableList(size) { kotlin.random.Random.nextInt() }
@@ -28,7 +28,7 @@ internal class MultiThreadingMergeSorterTest {
     @MethodSource("testSort")
     @ParameterizedTest(name = "sort{index}, {1}")
     fun sort(numberOfThreads: Int, toSortList: MutableList<Int>, expectedList: MutableList<Int>) {
-        val actual = MultiThreadingMergeSorter.mergeSort(toSortList, numberOfThreads)
+        val actual = CoroutineMergeSorter.mergeSort(toSortList, numberOfThreads)
 
         assertEquals(expectedList, actual)
     }
