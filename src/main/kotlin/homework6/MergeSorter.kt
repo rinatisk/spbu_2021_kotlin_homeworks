@@ -110,16 +110,20 @@ object MergeSorter {
                         currentMiddle + 1, numberOfThreads
                     )
                 } else {
+
+                    val leftNumberOfThreads = numberOfThreads / 2
+                    val rightNumberOfThreads = numberOfThreads - leftNumberOfThreads
+
                     val leftThread = Thread {
                         this.multiThreadSort(
                             newList, Borders(borders.left, borders.middle),
-                            0, numberOfThreads - 1
+                            0, leftNumberOfThreads
                         )
                     }
                     val rightThread = Thread {
                         this.multiThreadSort(
                             newList, Borders(borders.middle + 1, borders.right),
-                            currentMiddle + 1, numberOfThreads - 1
+                            currentMiddle + 1, rightNumberOfThreads
                         )
                     }
 
